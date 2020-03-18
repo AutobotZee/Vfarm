@@ -1,0 +1,111 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2679876570232499377",
+      "lastPropertyId": "15:8462579668404552077",
+      "name": "SceneClass",
+      "properties": [
+        {
+          "id": "1:649468153610995534",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7806392600732043594",
+          "name": "T_start",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:8168301599293287276",
+          "name": "T_end",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "4:1185012349037242921",
+          "name": "logical_rack_id",
+          "type": 9
+        },
+        {
+          "id": "5:1106509483117106853",
+          "name": "rack_GUID",
+          "type": 9
+        },
+        {
+          "id": "6:386416273841024803",
+          "name": "logical_shelf_id",
+          "type": 9
+        },
+        {
+          "id": "7:2073662920759900852",
+          "name": "shelf_GUID",
+          "type": 9
+        },
+        {
+          "id": "8:8209561610476810022",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "9:6875860468625117919",
+          "name": "time",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "10:3019987922488924984",
+          "name": "Attribute1",
+          "type": 2,
+          "flags": 4
+        },
+        {
+          "id": "11:6432877376269048435",
+          "name": "Attribute2",
+          "type": 2,
+          "flags": 4
+        },
+        {
+          "id": "12:4080354783437481976",
+          "name": "Light_Level_ch1",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "13:2465496356686073631",
+          "name": "Light_Level_ch2",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "14:8757940241933059790",
+          "name": "Light_Level_ch3",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "15:8462579668404552077",
+          "name": "Rack_mode",
+          "type": 2,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:2679876570232499377",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

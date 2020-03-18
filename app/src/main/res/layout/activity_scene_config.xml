@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SceneConfig"
+    android:orientation="vertical">
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_state"
+            android:textSize="18sp"/>
+        <Space android:layout_width="5dp"
+            android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/connection_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnected"
+            android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/Scene1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scene 1" />
+
+        <Button
+            android:id="@+id/Scene2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scene 2" />
+
+        <Button
+            android:id="@+id/Scene3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scene 3" />
+
+        <Button
+            android:id="@+id/Scene4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scene 4" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <CheckedTextView
+            android:id="@+id/shelf_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checkMarkTint="#2196F3"
+            android:checked="true"
+            android:text="Shelf 1" />
+        <CheckedTextView
+            android:id="@+id/shelf_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checkMarkTint="#2196F3"
+            android:text="Shelf 2" />
+
+        <CheckedTextView
+            android:id="@+id/shelf_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checkMarkTint="#2196F3"
+            android:text="Shelf 3" />
+
+        <CheckedTextView
+            android:id="@+id/shelf_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checkMarkTint="#2196F3"
+            android:text="Shelf 4" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Channel 1" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <SeekBar
+                android:id="@+id/seekBar1"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/channel_1_value"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="value"
+                android:textScaleX="1.5"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Channel 3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <SeekBar
+                android:id="@+id/seekBar2"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/channel_2_value"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="value"
+                android:textScaleX="1.5"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Channel 2" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <SeekBar
+                android:id="@+id/seekBar3"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/channel_3_value"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="value"
+                android:textScaleX="1.5"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save_scene"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save Scene" />
+        <Button
+            android:id="@+id/schedule"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scehdule Scene" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/LED_on"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Turn ON" />
+
+    <Button
+        android:id="@+id/LED_off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Turn OFF" />
+    <ExpandableListView android:id="@+id/gatt_services_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
