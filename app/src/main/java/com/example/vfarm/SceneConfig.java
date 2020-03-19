@@ -14,7 +14,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
@@ -46,7 +45,7 @@ import java.util.UUID;
 
 import io.objectbox.Box;
 
-public class SceneConfig extends Activity {
+public class SceneConfig extends AppCompatActivity  {
 
     private final static String TAG = SceneConfig.class.getSimpleName();
 
@@ -57,7 +56,7 @@ public class SceneConfig extends Activity {
     private String mDeviceName;
     private String mDeviceAddress;
     private ExpandableListView mGattServicesList;
-    private BluetoothLeService mBluetoothLeService;
+    public BluetoothLeService mBluetoothLeService;
     public ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
 
@@ -81,6 +80,7 @@ public class SceneConfig extends Activity {
     public Button save_scene;
     public Button ON;
     public Button OFF;
+    public Button Send;
 
     private CheckedTextView shelf_select_1;
     private CheckedTextView shelf_select_2;
@@ -89,6 +89,8 @@ public class SceneConfig extends Activity {
     private TextView text_box1;
     private TextView text_box2;
     private TextView text_box3;
+    private EditText cmd;
+    private EditText addr;
 
     private Button scheduleButton;
     private SeekBar seek_ch1;
@@ -220,6 +222,8 @@ public class SceneConfig extends Activity {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         // TODO get Box for SceneClass
         SceneBox = ObjectBox.get().boxFor(SceneClass.class);
+        // added a shortcut to connect
+      //  mBluetoothLeService.connect(mDeviceAddress);
 
         // Design UI
         sc1 = (Button) findViewById(R.id.Scene1);
@@ -230,6 +234,7 @@ public class SceneConfig extends Activity {
         save_scene = (Button) findViewById(R.id.save_scene);
         ON = (Button) findViewById(R.id.LED_on);
         OFF = (Button) findViewById(R.id.LED_off);
+        Send = (Button) findViewById(R.id.Send);
 
 
         seek_ch1 = (SeekBar) findViewById(R.id.seekBar1);
@@ -244,6 +249,8 @@ public class SceneConfig extends Activity {
         text_box1 = (TextView) findViewById(R.id.channel_1_value);
         text_box2 = (TextView) findViewById(R.id.channel_2_value);
         text_box3 = (TextView) findViewById(R.id.channel_3_value);
+        cmd = (EditText) findViewById(R.id.cmd);
+        addr = (EditText) findViewById(R.id.Add);
 
  // Setting up function buttons
 
@@ -368,7 +375,7 @@ public class SceneConfig extends Activity {
             }
         });
 
-        sc4.setOnClickListener(new View.OnClickListener() {
+        sc4.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scenecount = 4;
@@ -386,6 +393,27 @@ public class SceneConfig extends Activity {
                     seek_ch3.setProgress(sc.Light_Level_ch3);
                     Toast.makeText(getApplicationContext(),"Scene Loaded", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        Send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cmd.getText()!=null && addr.getText()!=null){
+                    mBluetoothLeService.writeCharacteristic(characteristic1, addr.getText().toString());
+                    String com = cmd.getText().toString();
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mBluetoothLeService.writeCharacteristic(characteristic2, com);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"CMD or ADD empty", Toast.LENGTH_SHORT).show();
+                }
+                    ;
             }
         });
 
@@ -546,7 +574,7 @@ public class SceneConfig extends Activity {
         ON.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic2, shelf_add);
+                mBluetoothLeService.writeCharacteristic(characteristic1, shelf_add);
                 mBluetoothLeService.writeCharacteristic(characteristic2, "A1");
             }
         });
