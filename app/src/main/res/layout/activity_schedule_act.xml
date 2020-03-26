@@ -9,10 +9,86 @@ android:layout_height="match_parent"
 tools:context=".Schedule_act"
 android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SCHEDULE" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/set_start_date"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:text="Start Date" />
+
+    <Button
+        android:id="@+id/set_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start time" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/set_start_date_disp"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:hint="Start Date" />
+
+        <TextView
+            android:id="@+id/set_start_time_disp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Start Time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/set_end_date"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:text="END Date" />
+
+        <Button
+            android:id="@+id/set_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="END time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/set_end_date_disp"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:hint="END DATE" />
+
+        <TextView
+            android:id="@+id/set_end_time_disp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="End time" />
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/save"
+        android:text="Save Schedule"/>
 </LinearLayout>
