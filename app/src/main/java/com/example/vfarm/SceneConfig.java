@@ -1,5 +1,6 @@
 package com.example.vfarm;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -51,10 +52,18 @@ public class SceneConfig extends AppCompatActivity  {
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    public static final String STARTDT = "StartDT";
+    public static final String ENDDT = "EndDT";
+
+
 
     private TextView mConnectionState;
     private String mDeviceName;
     private String mDeviceAddress;
+
+    private String StartDT;
+    private String EndDT;
+
     private ExpandableListView mGattServicesList;
     public BluetoothLeService mBluetoothLeService;
     public ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
@@ -65,6 +74,7 @@ public class SceneConfig extends AppCompatActivity  {
 
     public BluetoothGattCharacteristic characteristic1 ;
     public BluetoothGattCharacteristic characteristic2 ;
+    public BluetoothGattCharacteristic characteristic3 ;
 
     private boolean mConnected = false;
     private BluetoothGattCharacteristic mNotifyCharacteristic;
@@ -81,6 +91,7 @@ public class SceneConfig extends AppCompatActivity  {
     public Button ON;
     public Button OFF;
     public Button Send;
+    public Button schdl;
 
     private CheckedTextView shelf_select_1;
     private CheckedTextView shelf_select_2;
@@ -91,6 +102,9 @@ public class SceneConfig extends AppCompatActivity  {
     private TextView text_box3;
     private EditText cmd;
     private EditText addr;
+
+    public TextView disp_Start_dt;
+    public TextView disp_end_dt;
 
     private Button scheduleButton;
     private SeekBar seek_ch1;
@@ -214,6 +228,7 @@ public class SceneConfig extends AppCompatActivity  {
         mGattServicesList = (ExpandableListView) findViewById(R.id.gatt_services_list);
         mGattServicesList.setOnChildClickListener(servicesListClickListner);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
+        schdl = findViewById(R.id.schedule_timer);
 
 
        // getActionBar().setTitle(mDeviceName);
@@ -251,6 +266,9 @@ public class SceneConfig extends AppCompatActivity  {
         text_box3 = (TextView) findViewById(R.id.channel_3_value);
         cmd = (EditText) findViewById(R.id.cmd);
         addr = (EditText) findViewById(R.id.Add);
+
+        disp_Start_dt = (TextView) findViewById(R.id.StartDateTime);
+        disp_end_dt = (TextView) findViewById(R.id.EndDateTime);
 
  // Setting up function buttons
 
@@ -307,6 +325,7 @@ public class SceneConfig extends AppCompatActivity  {
                 sc.Light_Level_ch3 = seek_ch3.getProgress();
                 SceneBox.put(sc);
                 sc.Attribute2= 0x0000000;
+
 
             }
         });
@@ -408,6 +427,12 @@ public class SceneConfig extends AppCompatActivity  {
                         e.printStackTrace();
                     }
                     mBluetoothLeService.writeCharacteristic(characteristic2, com);
+
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else
                 {
@@ -417,7 +442,29 @@ public class SceneConfig extends AppCompatActivity  {
             }
         });
 
+        schdl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBluetoothLeService.writeCharacteristic(characteristic3, disp_Start_dt.getText().toString());
+            }
+        });
+
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1){
+            if (resultCode == RESULT_OK);
+            StartDT = data.getStringExtra(STARTDT);
+            EndDT = data.getStringExtra(ENDDT);
+            disp_Start_dt.setText(StartDT);
+            disp_end_dt.setText(EndDT);
+
+        }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -428,6 +475,7 @@ public class SceneConfig extends AppCompatActivity  {
         }
 
         Log.d(TAG, "OnResume done"  );
+
         // mGattUpdate called here which in turns call Broadcast update which finally calls display gatt
         // mGattCharacteristics can be called here
 
@@ -481,7 +529,7 @@ public class SceneConfig extends AppCompatActivity  {
     public void openSchedule()
     {
         Intent intent = new Intent(this, Schedule_act.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void check( CheckedTextView b)
@@ -560,7 +608,8 @@ public class SceneConfig extends AppCompatActivity  {
 
         characteristic1 = mGattCharacteristics.get(2).get(0);
         characteristic2 = mGattCharacteristics.get(3).get(0);
-        //characteristic3 = mGattCharacteristics.get(2).get(3);
+
+        characteristic3 = mGattCharacteristics.get(4).get(0);
 
 
         // button description for On and OFF
@@ -612,7 +661,6 @@ public class SceneConfig extends AppCompatActivity  {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
-
 
 
 }

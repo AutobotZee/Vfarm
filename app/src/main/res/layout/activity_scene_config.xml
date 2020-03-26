@@ -260,10 +260,41 @@
 
         </LinearLayout>
 
-
-        <ExpandableListView android:id="@+id/gatt_services_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/StartDateTime"
+                android:layout_width="171dp"
+                android:layout_height="match_parent"
+                android:hint="START DATE TIME"
+
+                android:textAlignment="center" />
+
+
+            <TextView
+                android:id="@+id/EndDateTime"
+                android:layout_width="142dp"
+                android:layout_height="match_parent"
+                android:hint="END DATE TIME"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="SCHDL"
+                android:id="@+id/schedule_timer"/>
+
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/gatt_services_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

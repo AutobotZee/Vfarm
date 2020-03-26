@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,20 @@ import java.time.Month;
 import java.util.Calendar;
 
 public class Schedule_act extends AppCompatActivity {
+    public int year_val;
+    public int month_val;
+    public int day_val;
+    public int hour_val;
+    public int min_val;
+
+    public String startdt;
+    public String startd;
+    public String startt;
+    public String endtdt;
+    public String endd;
+    public String endt;
+
+
 
     public Button set_start_date;
     public Button set_start_time;
@@ -50,43 +65,49 @@ public class Schedule_act extends AppCompatActivity {
     set_start_date.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            showdate(disp_start_date);
+            showdate(disp_start_date, startd);
         }
     });
         set_start_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showtime(disp_start_time);
+                showtime(disp_start_time, startt);
+
             }
         });
 
         set_end_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showdate(disp_end_date);
+                showdate(disp_end_date, endd);
             }
         });
 
         set_end_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showtime(disp_end_time);
+                showtime(disp_end_time, endt);
             }
         });
     Save.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Toast.makeText(getApplicationContext(),"Schedule saved",  Toast.LENGTH_SHORT).show();
+            Intent resultIntent = new Intent(getApplicationContext(), SceneConfig.class);
+            startdt= disp_start_date.getText() + ":" + disp_end_time.getText();
+            endtdt = disp_end_date.getText() + ":" + disp_end_time.getText();
+            resultIntent.putExtra("StartDT", startdt);
+            resultIntent.putExtra("EndDT", endtdt);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         }
     });
     }
 
 
-
-
     // time setter functions
 
-    private void showdate(final TextView T){
+    private void showdate(final TextView T, String date){
 
         Calendar calendar = Calendar.getInstance();
 
@@ -99,12 +120,16 @@ public class Schedule_act extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String s = dayOfMonth + " " + month + " " + year + " ";
+                year_val = year;
+                month_val = month;
+                day_val = dayOfMonth;
                 T.setText(s);
             }
         }, YEAR, MONTH, DATE);
+        date = day_val + " " + month_val + " " + year_val + " ";
         datePickerDialog.show();
     }
-    private void showtime(final TextView T){
+    private void showtime(final TextView T, String time){
 
         Calendar calendar = Calendar.getInstance();
 
@@ -117,9 +142,12 @@ public class Schedule_act extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     String s = hourOfDay + " " + minute;
+                    hour_val = hourOfDay;
+                    min_val = minute;
                     T.setText(s);
             }
         }, HOUR, MIN, true);
+        time = hour_val + " " + min_val;
         timePickerDialog.show();
 
     }
