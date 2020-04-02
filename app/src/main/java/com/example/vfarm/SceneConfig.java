@@ -75,6 +75,11 @@ public class SceneConfig extends AppCompatActivity  {
     public BluetoothGattCharacteristic characteristic1 ;
     public BluetoothGattCharacteristic characteristic2 ;
     public BluetoothGattCharacteristic characteristic3 ;
+    public BluetoothGattCharacteristic characteristic_startdt ;
+    public BluetoothGattCharacteristic characteristic_enddt ;
+    public BluetoothGattCharacteristic characteristic_add1 ;
+    public BluetoothGattCharacteristic characteristic_cmd1 ;
+
 
     private boolean mConnected = false;
     private BluetoothGattCharacteristic mNotifyCharacteristic;
@@ -445,7 +450,27 @@ public class SceneConfig extends AppCompatActivity  {
         schdl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic3, disp_Start_dt.getText().toString());
+                mBluetoothLeService.writeCharacteristic(characteristic_startdt, disp_Start_dt.getText().toString());
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mBluetoothLeService.writeCharacteristic(characteristic_enddt, disp_end_dt.getText().toString());
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mBluetoothLeService.writeCharacteristic(characteristic_add1, addr.getText().toString());
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mBluetoothLeService.writeCharacteristic(characteristic_cmd1, cmd.getText().toString());
+                Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -608,8 +633,10 @@ public class SceneConfig extends AppCompatActivity  {
 
         characteristic1 = mGattCharacteristics.get(2).get(0);
         characteristic2 = mGattCharacteristics.get(3).get(0);
-
-        characteristic3 = mGattCharacteristics.get(4).get(0);
+        characteristic_startdt = mGattCharacteristics.get(4).get(3);
+        characteristic_enddt = mGattCharacteristics.get(4).get(2);
+        characteristic_add1 = mGattCharacteristics.get(4).get(1);
+        characteristic_cmd1 = mGattCharacteristics.get(4).get(0);
 
 
         // button description for On and OFF

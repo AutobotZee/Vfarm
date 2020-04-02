@@ -94,8 +94,8 @@ public class Schedule_act extends AppCompatActivity {
         public void onClick(View v) {
             Toast.makeText(getApplicationContext(),"Schedule saved",  Toast.LENGTH_SHORT).show();
             Intent resultIntent = new Intent(getApplicationContext(), SceneConfig.class);
-            startdt= disp_start_date.getText() + ":" + disp_end_time.getText();
-            endtdt = disp_end_date.getText() + ":" + disp_end_time.getText();
+            startdt= disp_start_date.getText() + " " + disp_end_time.getText();
+            endtdt = disp_end_date.getText() + " " + disp_end_time.getText();
             resultIntent.putExtra("StartDT", startdt);
             resultIntent.putExtra("EndDT", endtdt);
             setResult(RESULT_OK, resultIntent);
@@ -119,14 +119,19 @@ public class Schedule_act extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String s = dayOfMonth + " " + month + " " + year + " ";
+
                 year_val = year;
                 month_val = month;
                 day_val = dayOfMonth;
+                String dayval = Integer.toString(day_val);
+                String monthval = Integer.toString(month_val);
+                if(day_val<10){dayval = "0"+ Integer.toString(day_val); };
+                if(month_val<10){monthval = "0"+ Integer.toString(month_val);}
+
+                String s = dayval + "C" + monthval + "C" + year;
                 T.setText(s);
             }
         }, YEAR, MONTH, DATE);
-        date = day_val + " " + month_val + " " + year_val + " ";
         datePickerDialog.show();
     }
     private void showtime(final TextView T, String time){
@@ -141,13 +146,17 @@ public class Schedule_act extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    String s = hourOfDay + " " + minute;
+
                     hour_val = hourOfDay;
                     min_val = minute;
+                    String hourval = Integer.toString(hour_val);
+                    String minval = Integer.toString(min_val);
+                    if(hourOfDay<10){ hourval = "0"+hour_val;}
+                    if(min_val<10){ minval = "0" + min_val;}
+                    String s = minval + "C" + hourval;
                     T.setText(s);
             }
         }, HOUR, MIN, true);
-        time = hour_val + " " + min_val;
         timePickerDialog.show();
 
     }
