@@ -40,6 +40,8 @@ import java.util.HashMap;
 
 import android.os.Handler;
 
+import com.example.vfarm.ui.main.Schedule;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +56,7 @@ public class SceneConfig extends AppCompatActivity  {
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static final String STARTDT = "StartDT";
     public static final String ENDDT = "EndDT";
+    public ArrayList<Schedule> SCHEDULE_DFT = new ArrayList<>();
 
 
 
@@ -118,6 +121,8 @@ public class SceneConfig extends AppCompatActivity  {
     private int scenecount = 0;
 
     private String shelf_add = "00";
+
+    public ArrayList<Schedule> SCHEDULE_LIST = new ArrayList<>();
 
 
     // Note box variables

@@ -7,13 +7,19 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.vfarm.ui.main.Schedule;
+
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Schedule_act extends AppCompatActivity {
@@ -30,7 +36,8 @@ public class Schedule_act extends AppCompatActivity {
     public String endd;
     public String endt;
 
-
+    public String cmd1, cmd2, cmd3, cmd4, cmd5;
+    public String add1, add2, add3, add4, add5;
 
     public Button set_start_date;
     public Button set_start_time;
@@ -39,6 +46,7 @@ public class Schedule_act extends AppCompatActivity {
     public Button set_end_time;
 
     public Button Save;
+    public Button Add_schd;
 
     public TextView disp_start_date;
     public TextView disp_start_time;
@@ -46,6 +54,15 @@ public class Schedule_act extends AppCompatActivity {
     public TextView disp_end_date;
     public TextView disp_end_time;
 
+    public EditText CMD;
+    public EditText ADDRESS;
+
+    public ListView schedule_listview;
+    public ArrayList<String> sch_list= new ArrayList<>();
+    public ArrayList<Schedule> sch_obj_list = new ArrayList<>();
+    public ArrayAdapter<String> adapter;
+
+    public int counter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +78,40 @@ public class Schedule_act extends AppCompatActivity {
     disp_start_time = (TextView) findViewById(R.id.set_start_time_disp);
     disp_end_time = (TextView) findViewById(R.id.set_end_time_disp);
     Save = (Button) findViewById(R.id.save);
+    Add_schd = (Button) findViewById(R.id.add_schedule);
+    schedule_listview = (ListView) findViewById(R.id.Schedule_list);
 
-    set_start_date.setOnClickListener(new View.OnClickListener() {
+    CMD = (EditText) findViewById(R.id.CMD_TX);
+    ADDRESS = (EditText) findViewById(R.id.Address_TX);
+
+    adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, sch_list);
+    schedule_listview.setAdapter(adapter);
+
+    Add_schd.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Schedule sch = new Schedule(CMD.getText().toString(), ADDRESS.getText().toString(), disp_start_time.getText().toString(), disp_end_time.getText().toString());
+            sch.NAME = sch.NAME + Integer.toString(counter);
+
+            if(counter<6){
+            sch_obj_list.add(sch);
+            sch.sorter(sch_obj_list);
+
+            counter = counter + 1;
+
+        }else{ Toast.makeText(getApplicationContext(),"Schedule list full",  Toast.LENGTH_SHORT).show(); }
+
+            // Displaying the sorted list names
+            sch_list.clear();
+            for(Schedule s: sch_obj_list){
+            sch_list.add(s.NAME + ": " + s.START_TIME);
+           }
+            adapter.notifyDataSetChanged();
+        }
+
+    });
+
+        set_start_date.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             showdate(disp_start_date, startd);
@@ -98,6 +147,8 @@ public class Schedule_act extends AppCompatActivity {
             endtdt = disp_end_date.getText() + " " + disp_end_time.getText();
             resultIntent.putExtra("StartDT", startdt);
             resultIntent.putExtra("EndDT", endtdt);
+            resultIntent.putExtra("sch_obj_list",sch_obj_list);
+
             setResult(RESULT_OK, resultIntent);
             finish();
         }
@@ -153,7 +204,7 @@ public class Schedule_act extends AppCompatActivity {
                     String minval = Integer.toString(min_val);
                     if(hourOfDay<10){ hourval = "0"+hour_val;}
                     if(min_val<10){ minval = "0" + min_val;}
-                    String s = minval + "C" + hourval;
+                    String s = hourval+minval;
                     T.setText(s);
             }
         }, HOUR, MIN, true);
