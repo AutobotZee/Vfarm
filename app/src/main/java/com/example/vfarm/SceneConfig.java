@@ -507,7 +507,7 @@ public class SceneConfig extends AppCompatActivity  {
         if(requestCode == 1){
             if (resultCode == RESULT_OK);
    //         StartDT = data.getStringExtra(STARTDT);
-            //        EndDT = data.getStringExtra(ENDDT);
+            // EndDT = data.getStringExtra(ENDDT);
             Bundle bundle = getIntent().getExtras();
             disp_Start_dt.setText(StartDT);
             disp_end_dt.setText(EndDT);
