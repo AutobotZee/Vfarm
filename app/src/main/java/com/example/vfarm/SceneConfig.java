@@ -42,7 +42,9 @@ import android.os.Handler;
 
 import com.example.vfarm.ui.main.Schedule;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 
@@ -56,6 +58,7 @@ public class SceneConfig extends AppCompatActivity  {
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static final String STARTDT = "StartDT";
     public static final String ENDDT = "EndDT";
+    public static final String SCH_LIST_NAME = "sch_obj_list";
     public ArrayList<Schedule> SCHEDULE_DFT = new ArrayList<>();
 
 
@@ -100,6 +103,7 @@ public class SceneConfig extends AppCompatActivity  {
     public Button OFF;
     public Button Send;
     public Button schdl;
+    public Button send_recs;
 
     private CheckedTextView shelf_select_1;
     private CheckedTextView shelf_select_2;
@@ -260,6 +264,8 @@ public class SceneConfig extends AppCompatActivity  {
         ON = (Button) findViewById(R.id.LED_on);
         OFF = (Button) findViewById(R.id.LED_off);
         Send = (Button) findViewById(R.id.Send);
+
+        send_recs = (Button) findViewById(R.id.Send_recs);
 
 
         seek_ch1 = (SeekBar) findViewById(R.id.seekBar1);
@@ -479,6 +485,19 @@ public class SceneConfig extends AppCompatActivity  {
             }
         });
 
+        send_recs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean flag = false;
+                int k ;
+                for( k = 0; k < SCHEDULE_DFT.size(); k++)
+                {
+                    flag = writeSch(SCHEDULE_DFT.get(k));
+                    // Write the objects to ESP
+                };
+            }
+        });
+
     };
 
     @Override
@@ -487,10 +506,14 @@ public class SceneConfig extends AppCompatActivity  {
 
         if(requestCode == 1){
             if (resultCode == RESULT_OK);
-            StartDT = data.getStringExtra(STARTDT);
-            EndDT = data.getStringExtra(ENDDT);
+   //         StartDT = data.getStringExtra(STARTDT);
+            //        EndDT = data.getStringExtra(ENDDT);
+            Bundle bundle = getIntent().getExtras();
             disp_Start_dt.setText(StartDT);
             disp_end_dt.setText(EndDT);
+
+            //assert bundle != null;
+            SCHEDULE_DFT = bundle.getParcelableArrayList("sch_obj_list");
 
         }
     }
@@ -674,6 +697,30 @@ public class SceneConfig extends AppCompatActivity  {
                 new int[] { android.R.id.text1, android.R.id.text2 }
         );
         mGattServicesList.setAdapter(gattServiceAdapter);
+    }
+
+    public boolean writeSch(Schedule sch){
+        mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeCharacteristic(characteristic_enddt, sch.getEND1_TIME());
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeCharacteristic(characteristic_add1, sch.getADDRESS());
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
+        Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     private void updateConnectionState(final int resourceId) {

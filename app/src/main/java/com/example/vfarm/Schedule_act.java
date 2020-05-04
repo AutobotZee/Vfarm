@@ -59,7 +59,7 @@ public class Schedule_act extends AppCompatActivity {
 
     public ListView schedule_listview;
     public ArrayList<String> sch_list= new ArrayList<>();
-    public ArrayList<Schedule> sch_obj_list = new ArrayList<>();
+    public ArrayList<Schedule> sch_obj_list = new ArrayList<Schedule>();
     public ArrayAdapter<String> adapter;
 
     public int counter = 1;
@@ -147,7 +147,10 @@ public class Schedule_act extends AppCompatActivity {
             endtdt = disp_end_date.getText() + " " + disp_end_time.getText();
             resultIntent.putExtra("StartDT", startdt);
             resultIntent.putExtra("EndDT", endtdt);
-            resultIntent.putExtra("sch_obj_list",sch_obj_list);
+            Bundle bundle = new Bundle();
+
+            bundle.putParcelableArrayList("sch_obj_list",sch_obj_list);
+            resultIntent.putExtras(bundle);
 
             setResult(RESULT_OK, resultIntent);
             finish();
