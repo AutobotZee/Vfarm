@@ -84,10 +84,10 @@ public class Schedule implements Parcelable {
         dest.writeString(NAME);
     }
     public Schedule(Parcel in) {
-        CMD = in.readString();
-        ADDRESS = in.readString();
-        START_TIME = in.readString();
-        END1_TIME = in.readString();
+        this.CMD = in.readString();
+        this.ADDRESS = in.readString();
+        this.START_TIME = in.readString();
+        this.END1_TIME = in.readString();
     }
 }
 

@@ -288,14 +288,6 @@ public class SceneConfig extends AppCompatActivity  {
 
  // Setting up function buttons
 
-        scheduleButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openSchedule();
-            }
-        });
 
         shelf_select_1.setOnClickListener(new View.OnClickListener()
         {   @Override
@@ -431,6 +423,17 @@ public class SceneConfig extends AppCompatActivity  {
             }
         });
 
+        scheduleButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(SceneConfig.this, Schedule_act.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+
         Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -504,17 +507,17 @@ public class SceneConfig extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1){
-            if (resultCode == RESULT_OK);
-   //         StartDT = data.getStringExtra(STARTDT);
-            // EndDT = data.getStringExtra(ENDDT);
-            Bundle bundle = getIntent().getExtras();
-            disp_Start_dt.setText(StartDT);
-            disp_end_dt.setText(EndDT);
+            if (resultCode == RESULT_OK){
 
-            //assert bundle != null;
-            SCHEDULE_DFT = bundle.getParcelableArrayList("sch_obj_list");
+            StartDT = data.getStringExtra(STARTDT);
+            EndDT = data.getStringExtra(ENDDT);
 
+            Bundle bun = data.getBundleExtra("result.content");
+            //ArrayList<Schedule> SCHEDULE_DFT_new = bun.getParcelableArrayList("sch_obj_list");
+            SCHEDULE_DFT = bun.getParcelableArrayList("sch_obj_list");
+           // SCHEDULE_DFT = this.getIntent().getParcelableArrayListExtra("sch_obj_list");
+                disp_Start_dt.setText(StartDT);
+                disp_end_dt.setText(EndDT);
         }
     }
 
@@ -581,7 +584,7 @@ public class SceneConfig extends AppCompatActivity  {
     // Aditional functions for app
     public void openSchedule()
     {
-        Intent intent = new Intent(this, Schedule_act.class);
+        Intent intent = new Intent(SceneConfig.this, Schedule_act.class);
         startActivityForResult(intent, 1);
     }
 
@@ -671,14 +674,24 @@ public class SceneConfig extends AppCompatActivity  {
 
         OFF.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic1, shelf_add);
+                mBluetoothLeService.writeCharacteristic(characteristic1, "FF"); // global address
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 mBluetoothLeService.writeCharacteristic(characteristic2, "00");
             }
         });
         ON.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic1, shelf_add);
+                mBluetoothLeService.writeCharacteristic(characteristic1, "FF");
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 mBluetoothLeService.writeCharacteristic(characteristic2, "A1");
             }
         });
@@ -700,6 +713,11 @@ public class SceneConfig extends AppCompatActivity  {
     }
 
     public boolean writeSch(Schedule sch){
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
         try {
             Thread.sleep(300);

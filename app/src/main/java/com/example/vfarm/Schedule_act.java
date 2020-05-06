@@ -138,19 +138,22 @@ public class Schedule_act extends AppCompatActivity {
                 showtime(disp_end_time, endt);
             }
         });
+
+
     Save.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Toast.makeText(getApplicationContext(),"Schedule saved",  Toast.LENGTH_SHORT).show();
-            Intent resultIntent = new Intent(getApplicationContext(), SceneConfig.class);
+
+            Intent resultIntent = new Intent();
             startdt= disp_start_date.getText() + " " + disp_end_time.getText();
             endtdt = disp_end_date.getText() + " " + disp_end_time.getText();
             resultIntent.putExtra("StartDT", startdt);
             resultIntent.putExtra("EndDT", endtdt);
-            Bundle bundle = new Bundle();
 
-            bundle.putParcelableArrayList("sch_obj_list",sch_obj_list);
-            resultIntent.putExtras(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("sch_obj_list", sch_obj_list);
+            resultIntent.putExtra("result.content", bundle);
 
             setResult(RESULT_OK, resultIntent);
             finish();
