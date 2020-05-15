@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -493,10 +494,14 @@ public class SceneConfig extends AppCompatActivity  {
             public void onClick(View v) {
                 boolean flag = false;
                 int k ;
-                for( k = 0; k < SCHEDULE_DFT.size(); k++)
+                for( k = 0; (k < SCHEDULE_DFT.size()-1) && (SCHEDULE_DFT.size() != 0); k++)
+               // for( k = 1; k < 2; k++)
                 {
+                    if(SCHEDULE_DFT.get(k) != null){
                     flag = writeSch(SCHEDULE_DFT.get(k));
                     // Write the objects to ESP
+                }
+
                 };
             }
         });
@@ -512,10 +517,19 @@ public class SceneConfig extends AppCompatActivity  {
             StartDT = data.getStringExtra(STARTDT);
             EndDT = data.getStringExtra(ENDDT);
 
-            Bundle bun = data.getBundleExtra("result.content");
+           // Bundle bun = data.getBundleExtra("result.content");
+            Bundle bun = data.getExtras();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getApplicationContext(),"Bundle loaded", Toast.LENGTH_SHORT).show();
+
             //ArrayList<Schedule> SCHEDULE_DFT_new = bun.getParcelableArrayList("sch_obj_list");
             SCHEDULE_DFT = bun.getParcelableArrayList("sch_obj_list");
            // SCHEDULE_DFT = this.getIntent().getParcelableArrayListExtra("sch_obj_list");
+
                 disp_Start_dt.setText(StartDT);
                 disp_end_dt.setText(EndDT);
         }

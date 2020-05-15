@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,6 +66,17 @@ public class Schedule_act extends AppCompatActivity {
     public int counter = 1;
 
     @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("Sch_obj_list", sch_obj_list); //I assume you want to mPersonList
+    }
+
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState) {
+        this.sch_obj_list = savedInstanceState.getParcelableArrayList("Sch_obj_list"); //on coming back retrieve all values using key
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_act);
@@ -93,19 +105,20 @@ public class Schedule_act extends AppCompatActivity {
             Schedule sch = new Schedule(CMD.getText().toString(), ADDRESS.getText().toString(), disp_start_time.getText().toString(), disp_end_time.getText().toString());
             sch.NAME = sch.NAME + Integer.toString(counter);
 
-            if(counter<6){
+            if(counter<6)
+            {
             sch_obj_list.add(sch);
             sch.sorter(sch_obj_list);
-
             counter = counter + 1;
-
-        }else{ Toast.makeText(getApplicationContext(),"Schedule list full",  Toast.LENGTH_SHORT).show(); }
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Schedule list full",  Toast.LENGTH_SHORT).show();
+            }
 
             // Displaying the sorted list names
             sch_list.clear();
-            for(Schedule s: sch_obj_list){
-            sch_list.add(s.NAME + ": " + s.START_TIME);
-           }
+            for(Schedule s: sch_obj_list)
+            { sch_list.add(s.NAME + ": " + s.START_TIME); }
             adapter.notifyDataSetChanged();
         }
 
@@ -145,15 +158,21 @@ public class Schedule_act extends AppCompatActivity {
         public void onClick(View v) {
             Toast.makeText(getApplicationContext(),"Schedule saved",  Toast.LENGTH_SHORT).show();
 
+            for(int i = 0; i<3; i++)
+            {   Schedule schedule =  new Schedule("91","FF","1200","4560");
+                sch_obj_list.add(schedule);
+            }
+
             Intent resultIntent = new Intent();
-            startdt= disp_start_date.getText() + " " + disp_end_time.getText();
+            startdt= disp_start_date.getText() + " " + disp_start_time.getText();
             endtdt = disp_end_date.getText() + " " + disp_end_time.getText();
             resultIntent.putExtra("StartDT", startdt);
             resultIntent.putExtra("EndDT", endtdt);
 
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("sch_obj_list", sch_obj_list);
-            resultIntent.putExtra("result.content", bundle);
+            //resultIntent.putExtra("result.content", bundle);
+            resultIntent.putExtras(bundle);
 
             setResult(RESULT_OK, resultIntent);
             finish();
