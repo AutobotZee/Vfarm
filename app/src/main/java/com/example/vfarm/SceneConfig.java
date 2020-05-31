@@ -4,16 +4,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -37,6 +43,7 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import android.os.Handler;
@@ -132,6 +139,44 @@ public class SceneConfig extends AppCompatActivity  {
 
     // Note box variables
     private Box<SceneClass> SceneBox;
+    public int year_val;
+    public int month_val;
+    public int day_val;
+    public int hour_val;
+    public int min_val;
+
+    public String startdt;
+    public String startd;
+    public String startt;
+    public String endtdt;
+    public String endd;
+    public String endt;
+
+    public Button set_start_date;
+    public Button set_start_time;
+
+    public Button set_end_date;
+    public Button set_end_time;
+
+    public Button Save;
+    public Button Add_schd;
+
+    public TextView disp_start_date;
+    public TextView disp_start_time;
+
+    public TextView disp_end_date;
+    public TextView disp_end_time;
+
+    public EditText CMD;
+    public EditText ADDRESS;
+
+    public ListView schedule_listview;
+    public ArrayList<String> sch_list= new ArrayList<>();
+    public ArrayList<Schedule> sch_obj_list = new ArrayList<Schedule>();
+    public ArrayAdapter<String> adapter;
+
+    public int counter = 1;
+
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -225,6 +270,16 @@ public class SceneConfig extends AppCompatActivity  {
 
     private void clearUI() {
         mGattServicesList.setAdapter((SimpleExpandableListAdapter) null);
+    }
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("Sch_obj_list", sch_obj_list); //I assume you want to mPersonList
+    }
+
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState) {
+        this.sch_obj_list = savedInstanceState.getParcelableArrayList("Sch_obj_list"); //on coming back retrieve all values using key
     }
 
 
@@ -489,16 +544,103 @@ public class SceneConfig extends AppCompatActivity  {
             }
         });
 
+
+        set_start_date = (Button) findViewById(R.id.set_start_date);
+        set_start_time = (Button) findViewById(R.id.set_start_time);
+        set_end_date = (Button) findViewById(R.id.set_end_date);
+        set_end_time = (Button) findViewById(R.id.set_end_time);
+        disp_start_date = (TextView) findViewById(R.id.set_start_date_disp);
+        disp_end_date = (TextView) findViewById(R.id.set_end_date_disp);
+        disp_start_time = (TextView) findViewById(R.id.set_start_time_disp);
+        disp_end_time = (TextView) findViewById(R.id.set_end_time_disp);
+        Save = (Button) findViewById(R.id.save);
+        Add_schd = (Button) findViewById(R.id.add_schedule);
+        schedule_listview = (ListView) findViewById(R.id.Schedule_list);
+
+        CMD = (EditText) findViewById(R.id.CMD_TX);
+        ADDRESS = (EditText) findViewById(R.id.Address_TX);
+
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, sch_list);
+        schedule_listview.setAdapter(adapter);
+
+
+        Add_schd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(counter==0){
+                    for(int i = 0; i<3; i++)
+                    {   Schedule schedule =  new Schedule("91","FF","1200","4560");
+                        sch_obj_list.add(schedule);
+                        schedule.sorter(sch_obj_list);
+                        counter = counter+1;
+                        sch_list.clear();
+                    }}
+
+                for(Schedule s: sch_obj_list)
+                { sch_list.add(s.NAME + ": " + s.START_TIME); }
+                adapter.notifyDataSetChanged();
+
+                Schedule sch = new Schedule(CMD.getText().toString(), ADDRESS.getText().toString(), disp_start_time.getText().toString(), disp_end_time.getText().toString());
+                sch.NAME = sch.NAME + Integer.toString(counter);
+
+                if(counter<6)
+                {
+                    sch_obj_list.add(sch);
+                    sch.sorter(sch_obj_list);
+                    counter = counter + 1;
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Schedule list full",  Toast.LENGTH_SHORT).show();
+                }
+
+                // Displaying the sorted list names
+                sch_list.clear();
+                for(Schedule s: sch_obj_list)
+                { sch_list.add(s.NAME + ": " + s.START_TIME); }
+                adapter.notifyDataSetChanged();
+            }
+
+        });
+
+        set_start_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showdate(disp_start_date, startd);
+            }
+        });
+        set_start_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showtime(disp_start_time, startt);
+
+            }
+        });
+
+        set_end_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showdate(disp_end_date, endd);
+            }
+        });
+
+        set_end_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showtime(disp_end_time, endt);
+            }
+        });
+
+
         send_recs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean flag = false;
                 int k ;
-                for( k = 0; (k < SCHEDULE_DFT.size()-1) && (SCHEDULE_DFT.size() != 0); k++)
+                for( k = 0; (k < sch_obj_list.size()-1) && ( sch_obj_list.size() != 0); k++)
                // for( k = 1; k < 2; k++)
                 {
-                    if(SCHEDULE_DFT.get(k) != null){
-                    flag = writeSch(SCHEDULE_DFT.get(k));
+                    if(sch_obj_list.get(k) != null){
+                    flag = writeSch(sch_obj_list.get(k));
                     // Write the objects to ESP
                 }
 
@@ -527,7 +669,8 @@ public class SceneConfig extends AppCompatActivity  {
                 Toast.makeText(getApplicationContext(),"Bundle loaded", Toast.LENGTH_SHORT).show();
 
             //ArrayList<Schedule> SCHEDULE_DFT_new = bun.getParcelableArrayList("sch_obj_list");
-            SCHEDULE_DFT = bun.getParcelableArrayList("sch_obj_list");
+                assert bun != null;
+                SCHEDULE_DFT = bun.getParcelableArrayList("sch_obj_list");
            // SCHEDULE_DFT = this.getIntent().getParcelableArrayListExtra("sch_obj_list");
 
                 disp_Start_dt.setText(StartDT);
@@ -772,6 +915,61 @@ public class SceneConfig extends AppCompatActivity  {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
+    private void showdate(final TextView T, String date){
+
+        Calendar calendar = Calendar.getInstance();
+
+
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                year_val = year;
+                month_val = month;
+                day_val = dayOfMonth;
+                String dayval = Integer.toString(day_val);
+                String monthval = Integer.toString(month_val);
+                if(day_val<10){dayval = "0"+ Integer.toString(day_val); };
+                if(month_val<10){monthval = "0"+ Integer.toString(month_val);}
+
+                String s = dayval + "C" + monthval + "C" + year;
+                T.setText(s);
+            }
+        }, YEAR, MONTH, DATE);
+        datePickerDialog.show();
+    }
+    private void showtime(final TextView T, String time){
+
+        Calendar calendar = Calendar.getInstance();
+
+
+        int HOUR = calendar.get(Calendar.HOUR);
+        int MIN = calendar.get(Calendar.MINUTE);
+
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                hour_val = hourOfDay;
+                min_val = minute;
+                String hourval = Integer.toString(hour_val);
+                String minval = Integer.toString(min_val);
+                if(hourOfDay<10){ hourval = "0"+hour_val;}
+                if(min_val<10){ minval = "0" + min_val;}
+                String s = hourval+minval;
+                T.setText(s);
+            }
+        }, HOUR, MIN, true);
+        timePickerDialog.show();
+
+    }
+
 
 
 }

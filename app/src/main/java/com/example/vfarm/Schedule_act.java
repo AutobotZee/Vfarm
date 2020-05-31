@@ -37,9 +37,6 @@ public class Schedule_act extends AppCompatActivity {
     public String endd;
     public String endt;
 
-    public String cmd1, cmd2, cmd3, cmd4, cmd5;
-    public String add1, add2, add3, add4, add5;
-
     public Button set_start_date;
     public Button set_start_time;
 
@@ -102,6 +99,8 @@ public class Schedule_act extends AppCompatActivity {
     Add_schd.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+
             Schedule sch = new Schedule(CMD.getText().toString(), ADDRESS.getText().toString(), disp_start_time.getText().toString(), disp_end_time.getText().toString());
             sch.NAME = sch.NAME + Integer.toString(counter);
 
