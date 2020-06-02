@@ -133,7 +133,6 @@ public class SceneConfig extends AppCompatActivity  {
     private int scenecount = 0;
 
     private String shelf_add = "00";
-
     public ArrayList<Schedule> SCHEDULE_LIST = new ArrayList<>();
 
 
@@ -175,7 +174,7 @@ public class SceneConfig extends AppCompatActivity  {
     public ArrayList<Schedule> sch_obj_list = new ArrayList<Schedule>();
     public ArrayAdapter<String> adapter;
 
-    public int counter = 1;
+    public int counter = 0;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -549,8 +548,8 @@ public class SceneConfig extends AppCompatActivity  {
         set_start_time = (Button) findViewById(R.id.set_start_time);
         set_end_date = (Button) findViewById(R.id.set_end_date);
         set_end_time = (Button) findViewById(R.id.set_end_time);
-        disp_start_date = (TextView) findViewById(R.id.set_start_date_disp);
-        disp_end_date = (TextView) findViewById(R.id.set_end_date_disp);
+        //disp_start_date = (TextView) findViewById(R.id.set_start_date_disp);
+        //disp_end_date = (TextView) findViewById(R.id.set_end_date_disp);
         disp_start_time = (TextView) findViewById(R.id.set_start_time_disp);
         disp_end_time = (TextView) findViewById(R.id.set_end_time_disp);
         Save = (Button) findViewById(R.id.save);
@@ -560,7 +559,7 @@ public class SceneConfig extends AppCompatActivity  {
         CMD = (EditText) findViewById(R.id.CMD_TX);
         ADDRESS = (EditText) findViewById(R.id.Address_TX);
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, sch_list);
+        adapter = new ArrayAdapter<String>(SceneConfig.this,android.R.layout.simple_list_item_1, sch_list);
         schedule_listview.setAdapter(adapter);
 
 
@@ -573,12 +572,13 @@ public class SceneConfig extends AppCompatActivity  {
                         sch_obj_list.add(schedule);
                         schedule.sorter(sch_obj_list);
                         counter = counter+1;
-                        sch_list.clear();
                     }}
 
                 for(Schedule s: sch_obj_list)
-                { sch_list.add(s.NAME + ": " + s.START_TIME); }
+                { sch_list.add(s.NAME + ": " + s.START_TIME);
                 adapter.notifyDataSetChanged();
+                }
+
 
                 Schedule sch = new Schedule(CMD.getText().toString(), ADDRESS.getText().toString(), disp_start_time.getText().toString(), disp_end_time.getText().toString());
                 sch.NAME = sch.NAME + Integer.toString(counter);
@@ -596,18 +596,14 @@ public class SceneConfig extends AppCompatActivity  {
                 // Displaying the sorted list names
                 sch_list.clear();
                 for(Schedule s: sch_obj_list)
-                { sch_list.add(s.NAME + ": " + s.START_TIME); }
-                adapter.notifyDataSetChanged();
+                { sch_list.add(s.NAME + ": " + s.START_TIME);
+                adapter.notifyDataSetChanged();}
+
             }
 
         });
 
-        set_start_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showdate(disp_start_date, startd);
-            }
-        });
+
         set_start_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -616,12 +612,6 @@ public class SceneConfig extends AppCompatActivity  {
             }
         });
 
-        set_end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showdate(disp_end_date, endd);
-            }
-        });
 
         set_end_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -635,8 +625,7 @@ public class SceneConfig extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 boolean flag = false;
-                int k ;
-                for( k = 0; (k < sch_obj_list.size()-1) && ( sch_obj_list.size() != 0); k++)
+                for( int k = 0; (k < sch_obj_list.size()) && ( sch_obj_list.size() != 0); k++)
                // for( k = 1; k < 2; k++)
                 {
                     if(sch_obj_list.get(k) != null){
@@ -870,11 +859,7 @@ public class SceneConfig extends AppCompatActivity  {
     }
 
     public boolean writeSch(Schedule sch){
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
         try {
             Thread.sleep(300);
@@ -895,6 +880,11 @@ public class SceneConfig extends AppCompatActivity  {
         }
         mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
         Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

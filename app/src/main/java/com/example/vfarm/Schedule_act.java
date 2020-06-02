@@ -88,7 +88,7 @@ public class Schedule_act extends AppCompatActivity {
     disp_end_time = (TextView) findViewById(R.id.set_end_time_disp);
     Save = (Button) findViewById(R.id.save);
     Add_schd = (Button) findViewById(R.id.add_schedule);
-    schedule_listview = (ListView) findViewById(R.id.Schedule_list);
+    schedule_listview = (ListView) findViewById(R.id.Schedule_list_1);
 
     CMD = (EditText) findViewById(R.id.CMD_TX);
     ADDRESS = (EditText) findViewById(R.id.Address_TX);
