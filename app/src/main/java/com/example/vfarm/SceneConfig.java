@@ -93,6 +93,7 @@ public class SceneConfig extends AppCompatActivity  {
     public BluetoothGattCharacteristic characteristic_enddt ;
     public BluetoothGattCharacteristic characteristic_add1 ;
     public BluetoothGattCharacteristic characteristic_cmd1 ;
+    public BluetoothGattCharacteristic characteristic_flag ;
 
 
     private boolean mConnected = false;
@@ -629,8 +630,9 @@ public class SceneConfig extends AppCompatActivity  {
                // for( k = 1; k < 2; k++)
                 {
                     if(sch_obj_list.get(k) != null){
+                        mBluetoothLeService.writeCharacteristic(characteristic_flag,"true");
                     flag = writeSch(sch_obj_list.get(k));
-                    // Write the objects to ESP
+
                 }
 
                 };
@@ -814,6 +816,7 @@ public class SceneConfig extends AppCompatActivity  {
         characteristic_enddt = mGattCharacteristics.get(4).get(2);
         characteristic_add1 = mGattCharacteristics.get(4).get(1);
         characteristic_cmd1 = mGattCharacteristics.get(4).get(0);
+        characteristic_flag = mGattCharacteristics.get(5).get(0);
 
 
         // button description for On and OFF
@@ -860,6 +863,11 @@ public class SceneConfig extends AppCompatActivity  {
 
     public boolean writeSch(Schedule sch){
 
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
         try {
             Thread.sleep(300);
@@ -880,6 +888,12 @@ public class SceneConfig extends AppCompatActivity  {
         }
         mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
         Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mBluetoothLeService.writeCharacteristic(characteristic_flag,"false");
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
