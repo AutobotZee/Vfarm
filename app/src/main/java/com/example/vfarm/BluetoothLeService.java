@@ -272,7 +272,9 @@ public class BluetoothLeService extends Service {
         Log.i(TAG,value);
         Log.i(TAG,characteristic.getUuid().toString());
         Log.i(TAG,hexToBytes(value).toString());
-        characteristic.setValue(hexToBytes(value));
+        //characteristic.setValue(hexToBytes(value));
+        characteristic.setValue( value.getBytes());
+
         mBluetoothGatt.writeCharacteristic(characteristic);
 
 

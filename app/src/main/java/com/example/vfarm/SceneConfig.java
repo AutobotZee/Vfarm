@@ -893,7 +893,7 @@ public class SceneConfig extends AppCompatActivity  {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        mBluetoothLeService.writeCharacteristic(characteristic_flag,"false");
+        mBluetoothLeService.writeCharacteristic(characteristic_flag,"11");
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
