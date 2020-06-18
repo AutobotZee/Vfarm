@@ -522,19 +522,19 @@ public class SceneConfig extends AppCompatActivity  {
             public void onClick(View v) {
                 mBluetoothLeService.writeCharacteristic(characteristic_startdt, disp_Start_dt.getText().toString());
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 mBluetoothLeService.writeCharacteristic(characteristic_enddt, disp_end_dt.getText().toString());
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 mBluetoothLeService.writeCharacteristic(characteristic_add1, addr.getText().toString());
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -569,7 +569,7 @@ public class SceneConfig extends AppCompatActivity  {
             public void onClick(View v) {
                 if(counter==0){
                     for(int i = 0; i<3; i++)
-                    {   Schedule schedule =  new Schedule("91","FF","1200","4560");
+                    {   Schedule schedule =  new Schedule("126","255","1200","1600");
                         sch_obj_list.add(schedule);
                         schedule.sorter(sch_obj_list);
                         counter = counter+1;
@@ -630,7 +630,6 @@ public class SceneConfig extends AppCompatActivity  {
                // for( k = 1; k < 2; k++)
                 {
                     if(sch_obj_list.get(k) != null){
-                        mBluetoothLeService.writeCharacteristic(characteristic_flag,"true");
                     flag = writeSch(sch_obj_list.get(k));
 
                 }
@@ -864,38 +863,38 @@ public class SceneConfig extends AppCompatActivity  {
     public boolean writeSch(Schedule sch){
 
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         mBluetoothLeService.writeCharacteristic(characteristic_enddt, sch.getEND1_TIME());
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         mBluetoothLeService.writeCharacteristic(characteristic_add1, sch.getADDRESS());
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
         Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        mBluetoothLeService.writeCharacteristic(characteristic_flag,"11");
+        mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
