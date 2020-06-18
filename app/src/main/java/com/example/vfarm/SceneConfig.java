@@ -44,6 +44,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import android.os.Handler;
@@ -569,7 +570,7 @@ public class SceneConfig extends AppCompatActivity  {
             public void onClick(View v) {
                 if(counter==0){
                     for(int i = 0; i<3; i++)
-                    {   Schedule schedule =  new Schedule("126","255","1200","1600");
+                    {   Schedule schedule =  new Schedule("0","255",Integer.toString(1452+i),"1600");
                         sch_obj_list.add(schedule);
                         schedule.sorter(sch_obj_list);
                         counter = counter+1;
@@ -822,25 +823,25 @@ public class SceneConfig extends AppCompatActivity  {
 
         OFF.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic1, "FF"); // global address
+                mBluetoothLeService.writeCharacteristic(characteristic1, "255"); // global address
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mBluetoothLeService.writeCharacteristic(characteristic2, "00");
+                mBluetoothLeService.writeCharacteristic(characteristic2, "0");
             }
         });
         ON.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(characteristic1, "FF");
+                mBluetoothLeService.writeCharacteristic(characteristic1, "255");
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mBluetoothLeService.writeCharacteristic(characteristic2, "A1");
+                mBluetoothLeService.writeCharacteristic(characteristic2, "5");
             }
         });
 
