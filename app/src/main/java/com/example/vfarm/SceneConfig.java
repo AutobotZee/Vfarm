@@ -627,6 +627,14 @@ public class SceneConfig extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 boolean flag = false;
+
+                mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 for( int k = 0; (k < sch_obj_list.size()) && ( sch_obj_list.size() != 0); k++)
                // for( k = 1; k < 2; k++)
                 {
@@ -888,12 +896,6 @@ public class SceneConfig extends AppCompatActivity  {
         }
         mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
         Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
         try {
             Thread.sleep(400);
         } catch (InterruptedException e) {
