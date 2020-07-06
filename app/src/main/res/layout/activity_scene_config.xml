@@ -27,189 +27,23 @@
                 android:text="@string/disconnected"
                 android:textSize="18sp"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/Scene1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 1" />
 
-            <Button
-                android:id="@+id/Scene2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 2" />
-
-            <Button
-                android:id="@+id/Scene3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 3" />
-
-            <Button
-                android:id="@+id/Scene4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 4" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <CheckedTextView
-                android:id="@+id/shelf_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:checked="true"
-                android:text="Shelf 1" />
-            <CheckedTextView
-                android:id="@+id/shelf_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 2" />
-
-            <CheckedTextView
-                android:id="@+id/shelf_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 3" />
-
-            <CheckedTextView
-                android:id="@+id/shelf_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 4" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 1" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar1"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/channel_1_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 3" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar2"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/channel_2_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 2" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar3"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/channel_3_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="5dp">
-                <Button
-                    android:id="@+id/save_scene"
-                    android:layout_width="wrap_content"
 
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Save Scene" />
-
-                <Button
-                    android:id="@+id/schedule"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Scehdule Scene" />
 
                 <Button
                     android:id="@+id/LED_on"
@@ -301,17 +135,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/read_schdl"
-                android:layout_width="209dp"
-                android:layout_height="match_parent"
-                android:text="Read Schedule" />
-        <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Send Records"
-        android:id="@+id/Send_recs"/>
-
         </LinearLayout>
 
         <TextView
@@ -323,38 +146,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/set_start_time"
-                android:layout_width="202dp"
-                android:layout_height="wrap_content"
-                android:text="Start time" />
-
-            <Button
-                android:id="@+id/set_end_time"
-                android:layout_width="212dp"
-                android:layout_height="wrap_content"
-                android:text="END time" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/set_start_time_disp"
-                android:layout_width="199dp"
-                android:layout_height="31dp"
-                android:hint="Start Time" />
-
-            <TextView
-                android:id="@+id/set_end_time_disp"
-                android:layout_width="match_parent"
-                android:layout_height="31dp"
-                android:hint="End time" />
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
 
         <Button
@@ -364,44 +156,17 @@
             android:text="ADD Schedule" />
 
         <Button
+            android:id="@+id/Send_recs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/save"
-            android:text="Save Schedule"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/Address_BT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address" />
-
-            <EditText
-                android:id="@+id/Address_TX"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:hint="Address" />
-
-            <Button
-                android:id="@+id/CMD_BT"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="DALI CMD" />
-
-            <EditText
-                android:id="@+id/CMD_TX"
-                android:layout_width="112dp"
-                android:layout_height="match_parent"
-                android:hint="DALI CMD" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:text="Send Records" />
 
         <ListView
             android:id="@+id/Schedule_list"
             android:layout_width="match_parent"
-            android:layout_height="370dp" />
+            android:layout_height="300dp"
+            android:padding="5dp"
+            />
     </LinearLayout>
 
 </ScrollView>

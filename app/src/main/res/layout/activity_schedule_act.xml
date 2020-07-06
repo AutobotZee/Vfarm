@@ -1,136 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-xmlns:tools="http://schemas.android.com/tools"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".Schedule_act"
-android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SCHEDULE" />
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        tools:context=".SceneConfig"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/set_start_date"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:text="Start Date" />
-
-    <Button
-        android:id="@+id/set_start_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start time" />
-</LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/set_start_date_disp"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:hint="Start Date" />
-
-        <TextView
-            android:id="@+id/set_start_time_disp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Start Time" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/set_end_date"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:text="END Date" />
-
-        <Button
-            android:id="@+id/set_end_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="END time" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/set_end_date_disp"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:hint="END DATE" />
-
-        <TextView
-            android:id="@+id/set_end_time_disp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="End time" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/add_schedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ADD Schedule" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/save"
-        android:text="Save Schedule"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/Address_BT"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/Address_TX"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:hint="Address" />
+            <EditText
+                android:id="@+id/Sch_name"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:layout_width="326dp"
+                android:layout_height="46dp"
+                android:text="Schedule Name"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+            <Button
+                android:paddingRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/rename"
+                android:text="Rename"/>
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/CMD_BT"
-            android:layout_width="wrap_content"
+            android:id="@+id/Auto_generate_records"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="DALI CMD" />
+            android:paddingRight="5dp"
+            android:text="Auto_generate_records" />
 
-        <EditText
-            android:id="@+id/CMD_TX"
-            android:layout_width="112dp"
-            android:layout_height="match_parent"
-            android:hint="DALI CMD" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Sch_record_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="2dp"
+            android:scrollbars="vertical" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sec_ID"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:hint="ID"
+                android:paddingRight="10dp"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/sec_Address"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:hint="Address"
+                android:paddingRight="10dp"
+                android:textSize="18sp"
+                android:inputType="number"
+                />
+
+            <EditText
+                android:id="@+id/sec_CMD"
+                android:layout_width="103dp"
+                android:layout_height="match_parent"
+                android:hint="CMD"
+                android:paddingRight="10dp"
+                android:textSize="18sp"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/sec_StartDT"
+                android:layout_width="108dp"
+                android:layout_height="match_parent"
+                android:hint="Start Time"
+                android:paddingRight="10dp"
+                android:textSize="18sp"
+                android:inputType="number"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/AddRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add record" />
+
+        <Button
+            android:id="@+id/SaveReturn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save and Return" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/Schedule_list_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+</ScrollView>
