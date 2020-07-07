@@ -1,11 +1,13 @@
 package com.example.vfarm;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -214,6 +216,39 @@ public class SceneConfig extends AppCompatActivity  {
 
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.list_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId())
+        {
+            case R.id.send_menu_option:
+                ArrayList<Record> r_list = sch_list_list.get(info.position).record_list;
+                boolean flag = false;
+                mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                for(int k = 0; (k < r_list.size()) && ( r_list.size() != 0); k++)
+                // for( k = 1; k < 2; k++)
+                {
+                    if(r_list.get(k) != null){
+                        flag = writeSch(r_list.get(k));
+                    }
+                }
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_config);
@@ -324,10 +359,9 @@ public class SceneConfig extends AppCompatActivity  {
         schedule_listview = (ListView) findViewById(R.id.Schedule_list);
         listAdapter = new ArrayAdapter<String>(SceneConfig.this,android.R.layout.simple_list_item_1, sch_name_list);
         schedule_listview.setAdapter(listAdapter);
+        registerForContextMenu(schedule_listview);
 
 
-        record_list.add(new Record("00","654","0240"));
-        record_list.add(new Record("00","987","0840"));
 
 
         Add_schd.setOnClickListener(new View.OnClickListener() {
@@ -350,8 +384,8 @@ public class SceneConfig extends AppCompatActivity  {
         send_recs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean flag = false;
 
+                boolean flag = false;
                 mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
                 try {
                     Thread.sleep(400);
@@ -513,15 +547,15 @@ public class SceneConfig extends AppCompatActivity  {
         }
 
 
-        // Usa
+        // Static initialization of Charactersitics based on GATT services Table
 
-        characteristic1 = mGattCharacteristics.get(2).get(0);
-        characteristic2 = mGattCharacteristics.get(3).get(0);
-        characteristic_startdt = mGattCharacteristics.get(4).get(3);
-        characteristic_enddt = mGattCharacteristics.get(4).get(2);
-        characteristic_add1 = mGattCharacteristics.get(4).get(1);
-        characteristic_cmd1 = mGattCharacteristics.get(4).get(0);
-        characteristic_flag = mGattCharacteristics.get(5).get(0);
+        characteristic1 = mGattCharacteristics.get(2).get(0); // Global CMD
+        characteristic2 = mGattCharacteristics.get(3).get(0); // Global ADDRESS
+        characteristic_startdt = mGattCharacteristics.get(4).get(3); // Record's StartDT
+        characteristic_enddt = mGattCharacteristics.get(4).get(2); // Record's Énddt
+        characteristic_add1 = mGattCharacteristics.get(4).get(1); // Record's ADDRESS
+        characteristic_cmd1 = mGattCharacteristics.get(4).get(0); // Record's CMD
+        characteristic_flag = mGattCharacteristics.get(5).get(0); // Flag
 
 
         // button description for On and OFF

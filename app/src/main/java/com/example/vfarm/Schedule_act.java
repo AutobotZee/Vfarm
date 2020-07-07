@@ -63,9 +63,6 @@ public class Schedule_act extends AppCompatActivity {
         sec_Address = findViewById(R.id.sec_Address);
         sec_StartDT = findViewById(R.id.sec_StartDT);
 
-        data1.record_list.add(new Record("12","123","1230"));
-
-        data1.record_list.add(new Record("05","456","1920"));
         setData(data1);
 
         rename.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +101,13 @@ public class Schedule_act extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO make auto generate a record list here and delete all other initializations;
+
+                data1.record_list.add(new Record("00","654","0240"));
+                data1.record_list.add(new Record("00","987","0840"));
+                data1.record_list.add(new Record("12","123","1230"));
+                data1.record_list.add(new Record("05","456","1920"));
+                mRecAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(),"Test DATA written", Toast.LENGTH_SHORT).show();
             }
         });
 
