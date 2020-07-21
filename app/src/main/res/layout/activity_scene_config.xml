@@ -161,6 +161,12 @@
             android:layout_height="match_parent"
             android:text="Send Records" />
 
+        <Button
+            android:id="@+id/Read_recs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Read Records" />
+
         <ListView
             android:id="@+id/Schedule_list"
             android:layout_width="match_parent"

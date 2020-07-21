@@ -1,7 +1,6 @@
 package com.example.vfarm;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -76,15 +75,27 @@ public class SceneConfig extends AppCompatActivity  {
 
     // characteristics description
     public UUID id = UUID.fromString("8ab94001-9bcf-11e8-98d0-529269fb1459");
-
+    Schedule_Item running_sch = new Schedule_Item();
     public BluetoothGattCharacteristic characteristic1 ;
     public BluetoothGattCharacteristic characteristic2 ;
     public BluetoothGattCharacteristic characteristic3 ;
+
     public BluetoothGattCharacteristic characteristic_startdt ;
     public BluetoothGattCharacteristic characteristic_enddt ;
     public BluetoothGattCharacteristic characteristic_add1 ;
     public BluetoothGattCharacteristic characteristic_cmd1 ;
+
     public BluetoothGattCharacteristic characteristic_flag ;
+    public BluetoothGattCharacteristic characteristic_SCH_ID ;
+    public BluetoothGattCharacteristic characteristic_SCH_name ;
+    public BluetoothGattCharacteristic characteristic_SCH_Active_status ;
+    public BluetoothGattCharacteristic characteristic_SCH_rec_list_size ;
+
+    public BluetoothGattCharacteristic characteristic_SCH_read_running_SCH_flag;
+    public BluetoothGattCharacteristic characteristic_SCH_read_running_rec_flag ;
+    public BluetoothGattCharacteristic characteristic_SCH_running_reclist_size ;
+
+
 
 
     private boolean mConnected = false;
@@ -98,6 +109,7 @@ public class SceneConfig extends AppCompatActivity  {
     public Button Send;
     public Button schdl;
     public Button send_recs;
+    public Button read_recs;
 
     private EditText cmd;
     private EditText addr;
@@ -121,6 +133,7 @@ public class SceneConfig extends AppCompatActivity  {
             }
             // Automatically connects to the device upon successful start-up initialization.
             mBluetoothLeService.connect(mDeviceAddress);
+
         }
 
         @Override
@@ -228,20 +241,29 @@ public class SceneConfig extends AppCompatActivity  {
         switch (item.getItemId())
         {
             case R.id.send_menu_option:
-                ArrayList<Record> r_list = sch_list_list.get(info.position).record_list;
+                Schedule_Item selected_sch = sch_list_list.get(info.position);
+                ArrayList<Record> r_list = selected_sch.record_list;
                 boolean flag = false;
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_name, selected_sch.Sch_name);
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_ID, String.valueOf(selected_sch.ID));
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_Active_status,String.valueOf(selected_sch.Active_status));
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_rec_list_size,String.valueOf(selected_sch.record_list.size()));
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
                 mBluetoothLeService.writeCharacteristic(characteristic_flag,"0");
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
 
                 for(int k = 0; (k < r_list.size()) && ( r_list.size() != 0); k++)
-                // for( k = 1; k < 2; k++)
                 {
-                    if(r_list.get(k) != null){
-                        flag = writeSch(r_list.get(k));
+                    if(r_list.get(k) != null)
+                    {
+                        flag = writeRecord(r_list.get(k));
                     }
                 }
         }
@@ -256,6 +278,7 @@ public class SceneConfig extends AppCompatActivity  {
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+
 
         if (savedInstanceState != null) {
             // Then the application is being reloaded
@@ -281,10 +304,10 @@ public class SceneConfig extends AppCompatActivity  {
         schdl = findViewById(R.id.schedule_timer);
 
         setTitle(mDeviceName);
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//      getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(getApplicationContext(), BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-        // TODO get Box for SceneClass
+
         // added a shortcut to connect
       //  mBluetoothLeService.connect(mDeviceAddress);
 
@@ -293,6 +316,7 @@ public class SceneConfig extends AppCompatActivity  {
         OFF = (Button) findViewById(R.id.LED_off);
         Send = (Button) findViewById(R.id.Send);
         send_recs = (Button) findViewById(R.id.Send_recs);
+        read_recs = (Button) findViewById(R.id.Read_recs);
 
         cmd = (EditText) findViewById(R.id.cmd);
         addr = (EditText) findViewById(R.id.Add);
@@ -362,8 +386,6 @@ public class SceneConfig extends AppCompatActivity  {
         registerForContextMenu(schedule_listview);
 
 
-
-
         Add_schd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,11 +419,27 @@ public class SceneConfig extends AppCompatActivity  {
                // for( k = 1; k < 2; k++)
                 {
                     if(record_list.get(k) != null){
-                    flag = writeSch(record_list.get(k));
-
+                    flag = writeRecord(record_list.get(k));
                 }
 
                 };
+            }
+        });
+
+
+        read_recs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                write_bool_char(characteristic_SCH_read_running_SCH_flag, true);
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+                boolean flag_1 = read_bool_char(characteristic_SCH_read_running_SCH_flag);
+                while(flag_1 == true)
+                {
+                    flag_1 = read_bool_char(characteristic_SCH_read_running_SCH_flag);
+                }
+
+                running_sch = readRunningSch();
+                sch_list_list.add(running_sch);
             }
         });
 
@@ -416,10 +454,16 @@ public class SceneConfig extends AppCompatActivity  {
                 startActivityForResult(intent,1);
 
                 Toast.makeText(getBaseContext() ,"List data sent", Toast.LENGTH_LONG).show();
-
-                //TODO write text for on Result Activity
             }
         });
+
+        // test profile for char
+        if (characteristic_SCH_ID != null)
+        { mBluetoothLeService.setCharacteristicNotification( characteristic_SCH_ID, false);
+           // mNotifyCharacteristic = null;
+
+            Toast.makeText(getBaseContext() ,"DONE CHANGES", Toast.LENGTH_LONG).show();
+        }
 
     };
 
@@ -551,12 +595,21 @@ public class SceneConfig extends AppCompatActivity  {
 
         characteristic1 = mGattCharacteristics.get(2).get(0); // Global CMD
         characteristic2 = mGattCharacteristics.get(3).get(0); // Global ADDRESS
+
         characteristic_startdt = mGattCharacteristics.get(4).get(3); // Record's StartDT
         characteristic_enddt = mGattCharacteristics.get(4).get(2); // Record's Énddt
         characteristic_add1 = mGattCharacteristics.get(4).get(1); // Record's ADDRESS
         characteristic_cmd1 = mGattCharacteristics.get(4).get(0); // Record's CMD
-        characteristic_flag = mGattCharacteristics.get(5).get(0); // Flag
 
+        characteristic_SCH_ID = mGattCharacteristics.get(5).get(4);
+        characteristic_SCH_name = mGattCharacteristics.get(5).get(3);
+        characteristic_SCH_Active_status = mGattCharacteristics.get(5).get(2);
+        characteristic_flag = mGattCharacteristics.get(5).get(1); // Flag
+        characteristic_SCH_rec_list_size = mGattCharacteristics.get(5).get(0);
+
+        characteristic_SCH_read_running_SCH_flag = mGattCharacteristics.get(6).get(2) ;
+        characteristic_SCH_read_running_rec_flag = mGattCharacteristics.get(6).get(1) ;
+        characteristic_SCH_rec_list_size = mGattCharacteristics.get(6).get(0) ;
 
         // button description for On and OFF
 
@@ -600,45 +653,129 @@ public class SceneConfig extends AppCompatActivity  {
         mGattServicesList.setAdapter(gattServiceAdapter);
     }
 
-    public boolean writeSch(Record sch){
+    public boolean writeRecord(Record sch){
 
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         mBluetoothLeService.writeCharacteristic(characteristic_startdt,sch.getSTART_TIME());
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         mBluetoothLeService.writeCharacteristic(characteristic_add1, sch.getADDRESS());
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         mBluetoothLeService.writeCharacteristic(characteristic_cmd1, sch.getCMD());
         Toast.makeText(getApplicationContext(),"DATA written", Toast.LENGTH_SHORT).show();
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         return true;
     }
 
-    private void updateConnectionState(final int resourceId) {
-        runOnUiThread(new Runnable() {
+
+    public Schedule_Item readRunningSch()
+    {
+            Schedule_Item schedule_item = new Schedule_Item();
+            Record aux_rec;
+       //     mBluetoothLeService.readCharacteristic(characteristic_SCH_ID);
+            try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+       //     String s = characteristic_SCH_ID.getStringValue(0);
+            String s = "1";
+            schedule_item.ID = Integer.parseInt(s.trim());
+
+            mBluetoothLeService.readCharacteristic(characteristic_SCH_name);
+            try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+            schedule_item.Sch_name= characteristic_SCH_name.getStringValue(0) + "(READ FROM DECIVE)";
+
+            mBluetoothLeService.readCharacteristic(characteristic_SCH_Active_status);
+            try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+            if(characteristic_SCH_Active_status.getStringValue(0) == "0")
+                schedule_item.Active_status = false;
+            if(characteristic_SCH_Active_status.getStringValue(0) == "1")
+                schedule_item.Active_status = true;
+
+            int size = 0;
+            mBluetoothLeService.readCharacteristic(characteristic_SCH_rec_list_size);
+            try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace();}
+            if(characteristic_SCH_rec_list_size.getStringValue(0) == null){
+                Toast.makeText(getApplicationContext(),"RECORD LIST EMPTY, ESP not initialized", Toast.LENGTH_SHORT).show();
+            }
+            else{ size = Integer.parseInt(characteristic_SCH_rec_list_size.getStringValue(0).trim());}
+
+
+            for(int i =0; i < size; i ++)
+            {
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_read_running_rec_flag,"0");
+                write_bool_char(characteristic_SCH_read_running_rec_flag, true);
+                boolean flag2 = read_bool_char(characteristic_SCH_read_running_rec_flag);
+                while (flag2 == true)
+                {
+                    flag2 = read_bool_char(characteristic_SCH_read_running_rec_flag);
+                }
+                aux_rec = readRunningSch_Record();
+                schedule_item.record_list.add(aux_rec);
+            }
+
+            //Initialize the read flag for records
+
+            Toast.makeText(getApplicationContext(),"READ Successful", Toast.LENGTH_SHORT).show();
+
+            sch_name_list.add(schedule_item.Sch_name);
+            listAdapter.notifyDataSetChanged();
+            return schedule_item;
+    }
+
+    public Record readRunningSch_Record()
+    {
+        Record aux_rec = new Record();
+        mBluetoothLeService.readCharacteristic(characteristic_startdt);
+        aux_rec.START_TIME = characteristic_startdt.getStringValue(0);
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        mBluetoothLeService.readCharacteristic(characteristic_add1);
+        aux_rec.ADDRESS= characteristic_add1.getStringValue(0);
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        mBluetoothLeService.readCharacteristic(characteristic_cmd1);
+        aux_rec.CMD= characteristic_cmd1.getStringValue(0);
+
+        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+        Toast.makeText(getApplicationContext(),"READ Successful", Toast.LENGTH_SHORT).show();
+
+        return aux_rec;
+
+    }
+
+
+    private void updateConnectionState(final int resourceId) { runOnUiThread(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 mConnectionState.setText(resourceId);
             }
         });
     }
 
-    private static IntentFilter makeGattUpdateIntentFilter() {
+    private boolean read_bool_char(BluetoothGattCharacteristic characteristic)
+    {
+        boolean flag = true;
+        mBluetoothLeService.readCharacteristic(characteristic);
+
+        if(characteristic.getStringValue(0).trim().compareTo("0") == 0)
+        {flag = true;}
+        if(characteristic.getStringValue(0).trim().compareTo("1") == 0)
+        {flag = false;}
+        return flag;
+    }
+
+    private void write_bool_char(BluetoothGattCharacteristic characteristic, boolean flag)
+    {
+        if(flag == true)
+        {
+            mBluetoothLeService.writeCharacteristic(characteristic, "0");
+        }
+        if(flag == false)
+        {
+            mBluetoothLeService.writeCharacteristic(characteristic, "1");
+        }
+    }
+
+    private static IntentFilter makeGattUpdateIntentFilter()
+    {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
@@ -646,6 +783,4 @@ public class SceneConfig extends AppCompatActivity  {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
-
-
 }

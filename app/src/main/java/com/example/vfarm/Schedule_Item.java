@@ -22,6 +22,15 @@ public class Schedule_Item implements Parcelable {
 
     };
 
+    public Schedule_Item(){
+        this.ID = 0;
+        this.Sch_name = "Sch_name";
+        //   this.time_of_creation = ct;
+        this.Active_status = false;
+        this.record_list =  new ArrayList<Record>();
+
+    };
+
     protected Schedule_Item(Parcel in) {
         ID = in.readInt();
         Sch_name = in.readString();

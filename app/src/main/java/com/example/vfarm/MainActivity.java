@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
@@ -32,6 +33,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(homeIntent);
                 finish(); }
         },PERIOD);
-
     }
 }
