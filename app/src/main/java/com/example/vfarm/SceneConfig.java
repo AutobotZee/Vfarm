@@ -91,8 +91,8 @@ public class SceneConfig extends AppCompatActivity  {
     public BluetoothGattCharacteristic characteristic_SCH_Active_status ;
     public BluetoothGattCharacteristic characteristic_SCH_rec_list_size ;
 
-    public BluetoothGattCharacteristic characteristic_SCH_read_running_SCH_flag;
-    public BluetoothGattCharacteristic characteristic_SCH_read_running_rec_flag ;
+    public BluetoothGattCharacteristic characteristic_running_SCH_flag;
+    public BluetoothGattCharacteristic characteristic_running_REC_flag;
     public BluetoothGattCharacteristic characteristic_SCH_running_reclist_size ;
 
 
@@ -430,12 +430,12 @@ public class SceneConfig extends AppCompatActivity  {
         read_recs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                write_bool_char(characteristic_SCH_read_running_SCH_flag, true);
-                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
-                boolean flag_1 = read_bool_char(characteristic_SCH_read_running_SCH_flag);
-                while(flag_1 == true)
+                write_bool_char(characteristic_running_SCH_flag, true);
+                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
+                boolean flag_1 = read_bool_char(characteristic_running_SCH_flag);
+                while( flag_1 == true )
                 {
-                    flag_1 = read_bool_char(characteristic_SCH_read_running_SCH_flag);
+                    flag_1 = read_bool_char(characteristic_running_SCH_flag);
                 }
 
                 running_sch = readRunningSch();
@@ -607,8 +607,8 @@ public class SceneConfig extends AppCompatActivity  {
         characteristic_flag = mGattCharacteristics.get(5).get(1); // Flag
         characteristic_SCH_rec_list_size = mGattCharacteristics.get(5).get(0);
 
-        characteristic_SCH_read_running_SCH_flag = mGattCharacteristics.get(6).get(2) ;
-        characteristic_SCH_read_running_rec_flag = mGattCharacteristics.get(6).get(1) ;
+        characteristic_running_SCH_flag = mGattCharacteristics.get(6).get(2) ;
+        characteristic_running_REC_flag = mGattCharacteristics.get(6).get(1) ;
         characteristic_SCH_rec_list_size = mGattCharacteristics.get(6).get(0) ;
 
         // button description for On and OFF
@@ -671,9 +671,10 @@ public class SceneConfig extends AppCompatActivity  {
     {
             Schedule_Item schedule_item = new Schedule_Item();
             Record aux_rec;
-       //     mBluetoothLeService.readCharacteristic(characteristic_SCH_ID);
-            try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
-       //     String s = characteristic_SCH_ID.getStringValue(0);
+            Log.i(TAG, String.format("READING SCHEDULE:"));
+        //    mBluetoothLeService.readCharacteristic(characteristic_SCH_ID);
+        //    try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+        //    String s = characteristic_SCH_ID.getStringValue(0);
             String s = "1";
             schedule_item.ID = Integer.parseInt(s.trim());
 
@@ -691,7 +692,8 @@ public class SceneConfig extends AppCompatActivity  {
             int size = 0;
             mBluetoothLeService.readCharacteristic(characteristic_SCH_rec_list_size);
             try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace();}
-            if(characteristic_SCH_rec_list_size.getStringValue(0) == null){
+            if(characteristic_SCH_rec_list_size.getStringValue(0) == null)
+            {
                 Toast.makeText(getApplicationContext(),"RECORD LIST EMPTY, ESP not initialized", Toast.LENGTH_SHORT).show();
             }
             else{ size = Integer.parseInt(characteristic_SCH_rec_list_size.getStringValue(0).trim());}
@@ -699,12 +701,14 @@ public class SceneConfig extends AppCompatActivity  {
 
             for(int i =0; i < size; i ++)
             {
-                mBluetoothLeService.writeCharacteristic(characteristic_SCH_read_running_rec_flag,"0");
-                write_bool_char(characteristic_SCH_read_running_rec_flag, true);
-                boolean flag2 = read_bool_char(characteristic_SCH_read_running_rec_flag);
+                write_bool_char(characteristic_running_REC_flag, true);
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+                boolean flag2 = true;
                 while (flag2 == true)
                 {
-                    flag2 = read_bool_char(characteristic_SCH_read_running_rec_flag);
+                    flag2 = read_bool_char(characteristic_running_REC_flag);
+                    try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+                    Log.i(TAG, String.format("Awaiting Records to be written:"));
                 }
                 aux_rec = readRunningSch_Record();
                 schedule_item.record_list.add(aux_rec);
@@ -720,7 +724,7 @@ public class SceneConfig extends AppCompatActivity  {
     }
 
     public Record readRunningSch_Record()
-    {
+    {   Log.i(TAG, String.format("READING RECORDS"));
         Record aux_rec = new Record();
         mBluetoothLeService.readCharacteristic(characteristic_startdt);
         aux_rec.START_TIME = characteristic_startdt.getStringValue(0);
@@ -732,32 +736,20 @@ public class SceneConfig extends AppCompatActivity  {
 
         mBluetoothLeService.readCharacteristic(characteristic_cmd1);
         aux_rec.CMD= characteristic_cmd1.getStringValue(0);
-
-        try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         Toast.makeText(getApplicationContext(),"READ Successful", Toast.LENGTH_SHORT).show();
 
         return aux_rec;
 
     }
 
-
-    private void updateConnectionState(final int resourceId) { runOnUiThread(new Runnable() {
-            @Override
-            public void run()
-            {
-                mConnectionState.setText(resourceId);
-            }
-        });
-    }
-
     private boolean read_bool_char(BluetoothGattCharacteristic characteristic)
     {
         boolean flag = true;
         mBluetoothLeService.readCharacteristic(characteristic);
-
-        if(characteristic.getStringValue(0).trim().compareTo("0") == 0)
+        String s = characteristic.getStringValue(0).trim();
+        if( s.compareTo("0") == 0)
         {flag = true;}
-        if(characteristic.getStringValue(0).trim().compareTo("1") == 0)
+        if(s.compareTo("1") == 0)
         {flag = false;}
         return flag;
     }
@@ -783,4 +775,15 @@ public class SceneConfig extends AppCompatActivity  {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
+
+    private void updateConnectionState(final int resourceId) { runOnUiThread(new Runnable() {
+        @Override
+        public void run()
+        {
+            mConnectionState.setText(resourceId);
+        }
+    });
+    }
+
 }

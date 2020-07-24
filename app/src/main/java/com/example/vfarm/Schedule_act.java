@@ -102,10 +102,10 @@ public class Schedule_act extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO make auto generate a record list here and delete all other initializations;
 
-                data1.record_list.add(new Record("00","654","0240"));
-                data1.record_list.add(new Record("00","987","0840"));
-                data1.record_list.add(new Record("12","123","1230"));
-                data1.record_list.add(new Record("05","456","1920"));
+                data1.record_list.add(new Record("00","000","0200"));
+                data1.record_list.add(new Record("11","111","0900"));
+                data1.record_list.add(new Record("22","222","1300"));
+                data1.record_list.add(new Record("33","333","2000"));
                 mRecAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),"Test DATA written", Toast.LENGTH_SHORT).show();
             }
