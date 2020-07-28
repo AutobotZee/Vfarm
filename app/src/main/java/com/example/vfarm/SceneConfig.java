@@ -191,7 +191,8 @@ public class SceneConfig extends AppCompatActivity  {
                         characteristic2 = mGattCharacteristics.get(1).get(0);
 
 
-                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0)
+                        {
                             // If there is an active notification on a characteristic, clear
                             // it first so it doesn't update the data field on the user interface.
                             if (mNotifyCharacteristic != null)
@@ -720,7 +721,10 @@ public class SceneConfig extends AppCompatActivity  {
 
             sch_name_list.add(schedule_item.Sch_name);
             listAdapter.notifyDataSetChanged();
+
+            write_bool_char(characteristic_running_SCH_flag, false);
             return schedule_item;
+
     }
 
     public Record readRunningSch_Record()
