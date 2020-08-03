@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,27 @@ public class Schedule_act extends AppCompatActivity {
     Button AddRec;
     Button SaveReturn;
     Button AutoGen;
+    TextView R_int_text;
+    TextView G_int_text;
+    TextView B_int_text;
+
+    SeekBar R_seek;
+    SeekBar G_seek;
+    SeekBar B_seek;
+
+    CheckBox chk_shelf1;
+    CheckBox chk_shelf2;
+    CheckBox chk_shelf3;
+    CheckBox chk_shelf4;
+
+    String sh1 = "0";
+    String sh2 = "0";
+    String sh3 = "0";
+    String sh4 = "0";
+
+    String cmdR = "0";
+    String cmdG = "0";
+    String cmdB = "0";
 
 
     @Override
@@ -49,6 +72,20 @@ public class Schedule_act extends AppCompatActivity {
         SaveReturn =( Button) findViewById(R.id.SaveReturn);
         AutoGen = (Button) findViewById(R.id.Auto_generate_records);
 
+        R_int_text = (TextView) findViewById(R.id.R_int_text);
+        G_int_text = (TextView) findViewById(R.id.G_int_text);
+        B_int_text = (TextView) findViewById(R.id.B_int_text);
+
+        R_seek = (SeekBar) findViewById(R.id.R_int);
+        G_seek = (SeekBar) findViewById(R.id.G_int);
+        B_seek = (SeekBar) findViewById(R.id.B_int);
+
+
+        chk_shelf1 = (CheckBox) findViewById(R.id.chk_shelf1);
+        chk_shelf2 = (CheckBox) findViewById(R.id.chk_shelf2);
+        chk_shelf3 = (CheckBox) findViewById(R.id.chk_shelf3);
+        chk_shelf4 = (CheckBox) findViewById(R.id.chk_shelf4);
+        Chk_config();
         Record_recycler = findViewById(R.id.Sch_record_view);
         new ItemTouchHelper(rec_touch).attachToRecyclerView(Record_recycler);
 
@@ -65,6 +102,8 @@ public class Schedule_act extends AppCompatActivity {
 
         setData(data1);
 
+
+        Seek_config(); // configure the seekbar
         rename.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +170,7 @@ public class Schedule_act extends AppCompatActivity {
         textview.setText(sch.getSch_name());
         mRecAdapter.notifyDataSetChanged();
     }
+
     ItemTouchHelper.SimpleCallback rec_touch = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -143,6 +183,140 @@ public class Schedule_act extends AppCompatActivity {
             mRecAdapter.notifyDataSetChanged();
         }
     };
+
+    private void Seek_config(){ // configure the Seekbar and Text vies accordingly
+
+        R_seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                R_int_text.setText("" + progress + "%");
+                cmdR = digfix(255*progress/100);
+                sec_cmd.setText(cmdR+cmdG+cmdB);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        G_seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                G_int_text.setText("" + progress + "%");
+                cmdG = digfix(255*progress/100);
+                sec_cmd.setText(cmdR+cmdG+cmdB);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        B_seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                B_int_text.setText("" + progress +"%");
+                cmdB = digfix(255*progress/100);
+                sec_cmd.setText(cmdR+cmdG+cmdB);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void Chk_config(){
+        chk_shelf1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_shelf1.isChecked() == true)
+                {
+                    sh1 = "1";
+                }
+                else {sh1 = "0";
+                }
+                sec_Address.setText((sh1 +sh2 + sh3 +sh4).trim());
+            }
+        });
+
+        chk_shelf2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_shelf2.isChecked() == true)
+                {
+                    sh2 = "1";
+                }
+                else {sh2 = "0";
+                }
+                sec_Address.setText((sh1 +sh2 + sh3 +sh4).trim());
+            }
+        });
+
+        chk_shelf3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_shelf3.isChecked() == true)
+                {
+                    sh3 = "1";
+                }
+                else {sh3 = "0";
+                }
+                sec_Address.setText((sh1 +sh2 + sh3 +sh4).trim());
+            }
+        });
+        chk_shelf4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chk_shelf4.isChecked() == true)
+                {
+                    sh4 = "1";
+                }
+                else {sh4 = "0";
+                }
+                sec_Address.setText((sh1 +sh2 + sh3 +sh4).trim());
+            }
+        });
+
+
+    }
+    private String digfix( int x)
+    {
+        String s = "0";
+        if ((x > 0) && (x < 10))
+        {
+            s = "00" + Integer.toString(x);
+        }
+        if ((x > 10) && (x < 100))
+        {
+            s = "0" + Integer.toString(x);
+        }
+        if ((x > 100) && (x < 256))
+        {
+            s = Integer.toString(x).trim();
+        }
+        return s;
+    }
 
 
 }

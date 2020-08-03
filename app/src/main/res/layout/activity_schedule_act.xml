@@ -103,6 +103,152 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save and Return" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:outlineAmbientShadowColor="@color/colorR">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:text="R Channel Intensity"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <SeekBar
+                    android:id="@+id/R_int"
+                    android:layout_width="313dp"
+                    android:layout_height="28dp"
+                    android:outlineSpotShadowColor="@color/colorR"
+                    android:outlineAmbientShadowColor="@color/colorR"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="R"
+                    android:id="@+id/R_int_text"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:outlineAmbientShadowColor="@color/colorG">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:text="G Channel Intensity"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <SeekBar
+                    android:id="@+id/G_int"
+                    android:layout_width="313dp"
+                    android:layout_height="28dp"
+                    android:outlineSpotShadowColor="@color/colorG"
+                    android:outlineAmbientShadowColor="@color/colorG"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="R"
+                    android:id="@+id/G_int_text"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:outlineAmbientShadowColor="@color/colorB">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:text="B Channel Intensity"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <SeekBar
+                    android:id="@+id/B_int"
+                    android:layout_width="313dp"
+                    android:layout_height="28dp"
+                    android:outlineSpotShadowColor="@color/colorB"
+                    android:outlineAmbientShadowColor="@color/colorB"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="R"
+                    android:id="@+id/B_int_text"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <CheckBox
+                android:id="@+id/chk_shelf1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Shelf 1"
+                android:textSize="20sp"/>
+
+            <CheckBox
+                android:id="@+id/chk_shelf2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Shelf 2"
+                android:textSize="20sp"/>
+
+            <CheckBox
+                android:id="@+id/chk_shelf3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Shelf 3"
+                android:textSize="20sp"/>
+
+            <CheckBox
+                android:id="@+id/chk_shelf4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Shelf 4"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
