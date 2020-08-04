@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/adp_CMD"
-            android:layout_width="102dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/adp_StartDT"
             android:layout_marginLeft="10dp"
@@ -40,10 +40,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_below="@id/adp_StartDT"
+            android:layout_below="@id/adp_CMD"
+            android:layout_marginStart="36dp"
             android:layout_marginLeft="36dp"
             android:layout_marginTop="0dp"
-            android:layout_toRightOf="@id/adp_CMD"
+            android:layout_toEndOf="@id/adp_ID"
             android:text="Address"
             android:textSize="20dp" />
 
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_below="@id/adp_StartDT"
+            android:layout_below="@id/adp_CMD_text"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="-1dp"
             android:layout_toRightOf="@id/adp_Address_txt"
@@ -73,7 +74,7 @@
             android:id="@+id/adp_NAME"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/adp_CMD"
+            android:layout_below="@+id/adp_Address"
             android:layout_marginLeft="10dp"
             android:hint="NAME"
             android:textSize="15dp" />

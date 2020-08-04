@@ -169,7 +169,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="R"
+                    android:hint="B"
                     android:id="@+id/G_int_text"
                     android:textSize="20sp"
                     android:textAlignment="center"/>
@@ -205,8 +205,44 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="R"
+                    android:hint="B"
                     android:id="@+id/B_int_text"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:outlineAmbientShadowColor="@color/colorW">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:text="W Channel Intensity"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <SeekBar
+                    android:id="@+id/W_int"
+                    android:layout_width="313dp"
+                    android:layout_height="28dp"
+                    android:outlineSpotShadowColor="@color/colorW"
+                    android:outlineAmbientShadowColor="@color/colorW"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="W"
+                    android:id="@+id/W_int_text"
                     android:textSize="20sp"
                     android:textAlignment="center"/>
 
@@ -248,6 +284,7 @@
                 android:textSize="20sp"/>
 
         </LinearLayout>
+
 
     </LinearLayout>
 

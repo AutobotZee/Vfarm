@@ -40,10 +40,12 @@ public class Schedule_act extends AppCompatActivity {
     TextView R_int_text;
     TextView G_int_text;
     TextView B_int_text;
+    TextView W_int_text;
 
     SeekBar R_seek;
     SeekBar G_seek;
     SeekBar B_seek;
+    SeekBar W_seek;
 
     CheckBox chk_shelf1;
     CheckBox chk_shelf2;
@@ -55,9 +57,10 @@ public class Schedule_act extends AppCompatActivity {
     String sh3 = "0";
     String sh4 = "0";
 
-    String cmdR = "0";
-    String cmdG = "0";
-    String cmdB = "0";
+    String cmdR = "000";
+    String cmdG = "000";
+    String cmdB = "000";
+    String cmdW = "000";
 
 
     @Override
@@ -75,11 +78,12 @@ public class Schedule_act extends AppCompatActivity {
         R_int_text = (TextView) findViewById(R.id.R_int_text);
         G_int_text = (TextView) findViewById(R.id.G_int_text);
         B_int_text = (TextView) findViewById(R.id.B_int_text);
+        W_int_text = (TextView) findViewById(R.id.W_int_text);
 
         R_seek = (SeekBar) findViewById(R.id.R_int);
         G_seek = (SeekBar) findViewById(R.id.G_int);
         B_seek = (SeekBar) findViewById(R.id.B_int);
-
+        W_seek = (SeekBar) findViewById(R.id.W_int);
 
         chk_shelf1 = (CheckBox) findViewById(R.id.chk_shelf1);
         chk_shelf2 = (CheckBox) findViewById(R.id.chk_shelf2);
@@ -141,10 +145,10 @@ public class Schedule_act extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO make auto generate a record list here and delete all other initializations;
 
-                data1.record_list.add(new Record("0","255","0200"));
-                data1.record_list.add(new Record("5","255","0900"));
-                data1.record_list.add(new Record("0","255","1300"));
-                data1.record_list.add(new Record("5","255","2000"));
+                data1.record_list.add(new Record("123456789321","1111","0200"));
+                data1.record_list.add(new Record("567893212345","1111","0900"));
+                data1.record_list.add(new Record("123456789321","1111","1300"));
+                data1.record_list.add(new Record("567893212345","1111","2000"));
                 mRecAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),"Test DATA written", Toast.LENGTH_SHORT).show();
             }
@@ -191,7 +195,7 @@ public class Schedule_act extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 R_int_text.setText("" + progress + "%");
                 cmdR = digfix(255*progress/100);
-                sec_cmd.setText(cmdR+cmdG+cmdB);
+                sec_cmd.setText(cmdR+cmdG+cmdB+cmdW);
             }
 
             @Override
@@ -210,7 +214,7 @@ public class Schedule_act extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 G_int_text.setText("" + progress + "%");
                 cmdG = digfix(255*progress/100);
-                sec_cmd.setText(cmdR+cmdG+cmdB);
+                sec_cmd.setText(cmdR+cmdG+cmdB+cmdW);
 
             }
 
@@ -230,7 +234,7 @@ public class Schedule_act extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 B_int_text.setText("" + progress +"%");
                 cmdB = digfix(255*progress/100);
-                sec_cmd.setText(cmdR+cmdG+cmdB);
+                sec_cmd.setText(cmdR+cmdG+cmdB+cmdW);
 
             }
 
@@ -244,6 +248,26 @@ public class Schedule_act extends AppCompatActivity {
 
             }
         });
+
+        W_seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                W_int_text.setText("" + progress +"%");
+                cmdW = digfix(255*progress/100);
+                sec_cmd.setText(cmdR+cmdG+cmdB+cmdW);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     private void Chk_config(){
