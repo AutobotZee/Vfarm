@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,7 +18,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
+
 public class Schedule_act extends AppCompatActivity {
     private RecyclerView Record_recycler;
     private RecyclerView.Adapter mRecAdapter;
@@ -25,6 +30,13 @@ public class Schedule_act extends AppCompatActivity {
     Schedule_Item data1 = null;
     ArrayList<Schedule_Item> All_schedule = new ArrayList<>();
     public int provided_pos;
+
+    Calendar cc = Calendar.getInstance();
+    int hour = cc.get(Calendar.HOUR_OF_DAY);
+    int min = cc.get(Calendar.MINUTE);
+
+    int dt = hour*100 + min;
+
 
     // TODO Add new layout elements and display the data
     // TODO write adaptor class for 2nd layout
@@ -145,10 +157,10 @@ public class Schedule_act extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO make auto generate a record list here and delete all other initializations;
 
-                data1.record_list.add(new Record("123456789321","1111","0200"));
-                data1.record_list.add(new Record("567893212345","1111","0900"));
-                data1.record_list.add(new Record("123456789321","1111","1300"));
-                data1.record_list.add(new Record("567893212345","1111","2000"));
+                data1.record_list.add(new Record("010090115189","1100",String.valueOf(dt+3)));
+                data1.record_list.add(new Record("254254254254","1100",String.valueOf(dt+4)));
+                data1.record_list.add(new Record("010080150211","1100",String.valueOf(dt+5)));
+                data1.record_list.add(new Record("254254254254","1100",String.valueOf(dt+6)));
                 mRecAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),"Test DATA written", Toast.LENGTH_SHORT).show();
             }
