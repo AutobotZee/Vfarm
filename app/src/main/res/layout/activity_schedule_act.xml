@@ -56,7 +56,7 @@
 
             <TextView
                 android:id="@+id/sec_ID"
-                android:layout_width="100dp"
+                android:layout_width="56dp"
                 android:layout_height="match_parent"
                 android:hint="ID"
                 android:paddingRight="10dp"
@@ -65,31 +65,30 @@
 
             <EditText
                 android:id="@+id/sec_Address"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:hint="Address"
-                android:paddingRight="10dp"
-                android:textSize="18sp"
                 android:inputType="number"
-                />
+                android:paddingRight="10dp"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/sec_CMD"
-                android:layout_width="103dp"
+                android:layout_width="173dp"
                 android:layout_height="match_parent"
                 android:hint="CMD"
+                android:inputType="number"
                 android:paddingRight="10dp"
-                android:textSize="18sp"
-                android:inputType="number"/>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/sec_StartDT"
-                android:layout_width="108dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:hint="Start Time"
+                android:inputType="number"
                 android:paddingRight="10dp"
-                android:textSize="18sp"
-                android:inputType="number"/>
+                android:textSize="18sp" />
         </LinearLayout>
 
         <Button

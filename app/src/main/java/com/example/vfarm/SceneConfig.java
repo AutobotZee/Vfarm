@@ -251,9 +251,6 @@ public class SceneConfig extends AppCompatActivity  {
                 mBluetoothLeService.writeCharacteristic(characteristic_SCH_ID, String.valueOf(selected_sch.ID));
                 try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
 
-                mBluetoothLeService.writeCharacteristic(characteristic_SCH_Active_status,String.valueOf(selected_sch.Active_status));
-                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
-
                 mBluetoothLeService.writeCharacteristic(characteristic_SCH_rec_list_size,String.valueOf(selected_sch.record_list.size()));
                 try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
 
@@ -267,6 +264,9 @@ public class SceneConfig extends AppCompatActivity  {
                         flag = writeRecord(r_list.get(k));
                     }
                 }
+
+                mBluetoothLeService.writeCharacteristic(characteristic_SCH_Active_status,"1"); // make sure the sent schedule is then run instantly on ESP.
+                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         return super.onContextItemSelected(item);
     }
@@ -703,13 +703,15 @@ public class SceneConfig extends AppCompatActivity  {
             for(int i =0; i < size; i ++)
             {
                 write_bool_char(characteristic_running_REC_flag, true);
-                try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
+                long start = System.currentTimeMillis();
+                try { Thread.sleep(400); } catch ( InterruptedException e) { e.printStackTrace(); }
                 boolean flag2 = true;
                 while (flag2 == true)
                 {
                     flag2 = read_bool_char(characteristic_running_REC_flag);
                     try { Thread.sleep(400); } catch (InterruptedException e) { e.printStackTrace(); }
                     Log.i(TAG, String.format("Awaiting Records to be written:"));
+                    if(System.currentTimeMillis() > start + 500) { break; } // time out mechanism
                 }
                 aux_rec = readRunningSch_Record();
                 schedule_item.record_list.add(aux_rec);

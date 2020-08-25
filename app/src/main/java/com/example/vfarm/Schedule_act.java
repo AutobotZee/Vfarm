@@ -131,11 +131,52 @@ public class Schedule_act extends AppCompatActivity {
         AddRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Record rec = new Record(sec_cmd.getText().toString(), sec_Address.getText().toString(), sec_StartDT.getText().toString());
-                data1.record_list.add(rec);
-                // just accessing sorter through a record object
-                Record.sorter( data1.record_list);
-                mRecAdapter.notifyDataSetChanged();
+                boolean exception = false;
+                if( sec_StartDT.getText().toString().trim().isEmpty() )
+                {
+                    exception = true;
+                }
+
+                if( sec_Address.getText().toString().trim().isEmpty() )
+                {
+                    exception = true;
+                }
+
+                if( sec_cmd.getText().toString().trim().isEmpty()  )
+                {
+                    exception = true;
+                }
+
+                if( sec_cmd.getText().toString().trim().length() != 12 )
+                {
+                    exception = true;
+                }
+
+                for(Record item: data1.record_list)
+                {
+                    if(sec_StartDT.getText().toString().equals(item.getSTART_TIME()))
+                    {
+                        exception = true;
+                    }
+
+                    if( (Integer.parseInt(item.getSTART_TIME()) >= 2400) || (Integer.parseInt(item.getSTART_TIME()) <= 0) )
+                    {
+                        exception = true;
+                    }
+
+                }
+
+                if(exception){
+                    Toast.makeText(getApplicationContext(),"Start Time is colliding with an existing record's start time or is invalid", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Record rec = new Record(sec_cmd.getText().toString(), sec_Address.getText().toString(), sec_StartDT.getText().toString());
+                    data1.record_list.add(rec);
+                    // just accessing sorter through a record object
+                    Record.sorter( data1.record_list);
+                    mRecAdapter.notifyDataSetChanged();
+                }
+
             }
         });
         SaveReturn.setOnClickListener(new View.OnClickListener() {
@@ -339,11 +380,11 @@ public class Schedule_act extends AppCompatActivity {
     private String digfix( int x)
     {
         String s = "0";
-        if ((x > 0) && (x < 10))
+        if ((x >= 0) && (x < 10))
         {
             s = "00" + Integer.toString(x);
         }
-        if ((x > 10) && (x < 100))
+        if ((x >= 10) && (x < 100))
         {
             s = "0" + Integer.toString(x);
         }
