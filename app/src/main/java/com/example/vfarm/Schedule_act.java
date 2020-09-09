@@ -239,6 +239,7 @@ public class Schedule_act extends AppCompatActivity {
             data1.record_list.remove(viewHolder.getAdapterPosition());
             mRecAdapter.notifyDataSetChanged();
         }
+
     };
 
     private void Seek_config(){ // configure the Seekbar and Text vies accordingly
