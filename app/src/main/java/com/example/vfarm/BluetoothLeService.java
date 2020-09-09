@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,28 +81,31 @@ public class BluetoothLeService extends Service {
         }
 
         @Override
-        public void onCharacteristicRead(BluetoothGatt gatt,
-                                         BluetoothGattCharacteristic characteristic,
-                                         int status) {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
+        public void onCharacteristicRead(BluetoothGatt gatt,BluetoothGattCharacteristic characteristic, int status)
+        {
+            if (status == BluetoothGatt.GATT_SUCCESS)
+            {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             }
         }
 
         @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt,
-                                            BluetoothGattCharacteristic characteristic) {
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
+        {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            Log.i(TAG, String.format("*********************Received VALUE ******************:" + characteristic.getStringValue(0)));
+
+
         }
     };
 
-    private void broadcastUpdate(final String action) {
+    private void broadcastUpdate(final String action)
+    {
         final Intent intent = new Intent(action);
         sendBroadcast(intent);
     }
 
-    private void broadcastUpdate(final String action,
-                                 final BluetoothGattCharacteristic characteristic) {
+    private void broadcastUpdate(final String action, final BluetoothGattCharacteristic characteristic) {
         final Intent intent = new Intent(action);
 
         // This is special handling for the Heart Rate Measurement profile.  Data parsing is
@@ -123,13 +127,15 @@ public class BluetoothLeService extends Service {
         } else {
             // For all other profiles, writes the data formatted in HEX.
             final byte[] data = characteristic.getValue();
-            if (data != null && data.length > 0) {
+            if (data != null && data.length > 0)
+            {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for (byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
                 intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
             }
-        }
+        } final String value = characteristic.getValue().toString();
+        Log.d(TAG, String.format("*********************Received VALUE ******************:" + value));
         sendBroadcast(intent);
     }
 
@@ -271,10 +277,10 @@ public class BluetoothLeService extends Service {
         // written commands
         Log.i(TAG,value);
         Log.i(TAG,characteristic.getUuid().toString());
-        Log.i(TAG,hexToBytes(value).toString());
-        characteristic.setValue(hexToBytes(value));
-        mBluetoothGatt.writeCharacteristic(characteristic);
+        //characteristic.setValue(hexToBytes(value));
+        characteristic.setValue( value.getBytes());
 
+        mBluetoothGatt.writeCharacteristic(characteristic);
 
     }
 

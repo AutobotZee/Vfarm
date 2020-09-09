@@ -27,189 +27,23 @@
                 android:text="@string/disconnected"
                 android:textSize="18sp"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/Scene1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 1" />
 
-            <Button
-                android:id="@+id/Scene2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 2" />
-
-            <Button
-                android:id="@+id/Scene3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 3" />
-
-            <Button
-                android:id="@+id/Scene4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Scene 4" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <CheckedTextView
-                android:id="@+id/shelf_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:checked="true"
-                android:text="Shelf 1" />
-            <CheckedTextView
-                android:id="@+id/shelf_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 2" />
-
-            <CheckedTextView
-                android:id="@+id/shelf_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 3" />
-
-            <CheckedTextView
-                android:id="@+id/shelf_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checkMarkTint="#2196F3"
-                android:text="Shelf 4" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 1" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar1"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/channel_1_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 3" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar2"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/channel_2_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel 2" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <SeekBar
-                    android:id="@+id/seekBar3"
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/channel_3_value"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="value"
-                    android:textScaleX="1.5"
-                    android:textAlignment="center"/>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="5dp">
-                <Button
-                    android:id="@+id/save_scene"
-                    android:layout_width="wrap_content"
 
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Save Scene" />
-
-                <Button
-                    android:id="@+id/schedule"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Scehdule Scene" />
 
                 <Button
                     android:id="@+id/LED_on"
@@ -260,10 +94,85 @@
 
         </LinearLayout>
 
-
-        <ExpandableListView android:id="@+id/gatt_services_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/StartDateTime"
+                android:layout_width="171dp"
+                android:layout_height="match_parent"
+                android:hint="START DATE TIME"
+
+                android:textAlignment="center" />
+
+
+            <TextView
+                android:id="@+id/EndDateTime"
+                android:layout_width="142dp"
+                android:layout_height="match_parent"
+                android:hint="END DATE TIME"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="SCHDL"
+                android:id="@+id/schedule_timer"/>
+
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/gatt_services_list"
+            android:layout_width="match_parent"
+            android:layout_height="315dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SCHEDULE" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+
+
+        <Button
+            android:id="@+id/add_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD Schedule" />
+
+        <Button
+            android:id="@+id/Send_recs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Send Records" />
+
+        <Button
+            android:id="@+id/Read_recs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Read Records" />
+
+        <ListView
+            android:id="@+id/Schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:padding="5dp"
+            />
     </LinearLayout>
 
 </ScrollView>

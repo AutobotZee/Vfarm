@@ -72,15 +72,5 @@ public class leScan extends AppCompatActivity {
 
     }
 
-    public void openSceneConfig()
-    {
-        Intent intent = new Intent(this,SceneConfig.class);
-        startActivity(intent);
-    }
-    public void openDeviceScanActivity()
-    {
-    }
-// BLE functions added
-
 
 }
